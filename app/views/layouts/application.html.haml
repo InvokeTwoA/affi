@@ -1,0 +1,41 @@
+!!! 5
+%html
+  %head
+    %title
+      管理画面
+      /= full_title(yield(:title))
+    /= render partial: 'layouts/meta_tags'
+    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = csrf_meta_tags
+    %link{ rel: "alternate", media: "handheld", href: root_url }
+    /[if lt IE 9]
+      = javascript_include_tag "http://html5shim.googlecode.com/svn/trunk/html5.js"
+    = yield :head
+  %body
+    .navbar.navbar-default
+      .navbar-header
+        %button.navbar-toggle{"data-target" => ".navbar-responsive-collapse", "data-toggle" => "collapse", :type => "button"}
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+        %a.navbar-brand{:href => root_path} TOP
+      .navbar-collapse.collapse.navbar-responsive-collapse
+        %ul.nav.navbar-nav
+          /%li= link_to 'カッパ順', goods_path
+          /%li= link_to 'コメント順', popular_words_path
+        /.social{ style: 'text-align: right; padding: 10px'}
+        /  = link_to 'ツィート', 'https://twitter.com/share', class: 'twitter-share-button', data: { url: root_url, text: "セリフ画像で俳句を自動生成  #かっぱ俳句", lang: "ja" }
+        /  :javascript
+        /        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+    .container
+      /.row
+      /  /.span5
+      /  /  = render 'commons/sidebar'
+      /  /.span7
+      - if notice
+        .alert.alert-info
+          = notice
+      = yield
+    .copyright{ style: 'text-align: center' }
+      Copyright &copy; 2013 かっぱ All Rights Reserved.

@@ -1,0 +1,13 @@
+.main
+  %table.table.table-striped.table-hover
+    %tr
+      %th.center ID
+      %th.center タイトル
+      %th.center 本文
+      %th.center 作成日
+    - @articles.each do |article|
+      %tr
+        %td.center= article.id
+        %td.center= article.title
+        %td.center= article.body
+        %td.center= l article.created_at
