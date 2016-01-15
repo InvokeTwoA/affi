@@ -129,6 +129,7 @@ class Article < ActiveRecord::Base
       similar_products.elem.children.each do |child|
         asins.push child.xpath("ASIN").text
       end
+      asins
     end
   end
 end
