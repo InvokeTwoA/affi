@@ -19,4 +19,13 @@ module Affi
       g.controller_specs = false
     end
   end
+
+  class Application < Rails::Application
+    Amazon::Ecs.options = {
+      :associate_tag =>     'ayanoochi-22',
+      :AWS_access_key_id => 'AKIAI5TN655PDXJZEQLA',
+      :AWS_secret_key =>   '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'
+    }
+  end
+
 end

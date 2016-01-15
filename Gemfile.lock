@@ -27,6 +27,9 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    amazon-ecs (2.4.0)
+      nokogiri (~> 1.4)
+      ruby-hmac (~> 0.3)
     arel (5.0.1.20140414130214)
     atomutil (0.1.4)
     bcrypt (3.1.7)
@@ -128,6 +131,7 @@ GEM
     ref (2.0.0)
     responders (1.1.2)
       railties (>= 3.2, < 4.2)
+    ruby-hmac (0.4.0)
     ruby_parser (3.7.2)
       sexp_processor (~> 4.1)
     sass (3.4.21)
@@ -184,6 +188,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  amazon-ecs
   atomutil
   bcrypt (~> 3.1.7)
   byebug

@@ -41,3 +41,6 @@ gem 'whenever'
 
 # hatena api
 gem 'atomutil'
+
+# amazon
+gem 'amazon-ecs'
