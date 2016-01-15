@@ -124,8 +124,10 @@ class Article < ActiveRecord::Base
       asins = []
       #asin = res.get('SimilarProducts/SimilarProduct/ASIN')
       similar_products = res.get_element('SimilarProducts')
-      similar_products.elem.children.each do |child|
-        asins.push child.xpath("ASIN").text
+      if similar_products.present? && similar_products.elem.present?
+        similar_products.elem.children.each do |child|
+          asins.push child.xpath("ASIN").text
+        end
       end
       asins
     end
