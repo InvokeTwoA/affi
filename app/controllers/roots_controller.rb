@@ -3,6 +3,7 @@ class RootsController < ApplicationController
   before_filter :authenticate
   
   def index
+    Article.new_post if params[:exec] == '1'
     @articles = Article.recent
   end
   

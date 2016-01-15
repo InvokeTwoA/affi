@@ -17,9 +17,11 @@ class Article < ActiveRecord::Base
       )
       client = Atompub::Client.new(auth: auth)
 
-      res2 = self.search_amazon
+      response = self.search_amazon
       puts 'search amazon'
-      res2.items do |res|
+      puts "count = #{res2.items.count}"
+      response.items.each_with_index do |res, i|
+        puts "i=#{i}"
         asin = res.first_item.get('ASIN')
         if Article.where(asin: asin).any?
           puts "asin #{asin} already exist"
