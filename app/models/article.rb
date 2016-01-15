@@ -17,7 +17,7 @@ class Article < ActiveRecord::Base
       )
       client = Atompub::Client.new(auth: auth)
 
-      word = ["グラビアアイドル", "アイドル写真集"].sample
+      word = ["グラビアアイドル", "アイドル写真集", 'レースクィーン'].sample
       response = self.search_amazon(word)
       puts 'search amazon'
       puts "count = #{response.items.count}"
