@@ -122,6 +122,10 @@ class Article < ActiveRecord::Base
 
     # amazon API の関連商品
     def get_similar_goods_asins(res)
+      asin = res.get('SimilarProducts/SimilarProduct/ASIN')
+      asins = []
+      asins.push asin if asin.present?
+=begin
       similar_goods_asins = []
       relative_goods = res.get('SimilarProducts')
       if relative_goods.similar_products.any?
@@ -130,6 +134,7 @@ class Article < ActiveRecord::Base
         end
       end
       similar_goods_asins
+=end
     end
   end
 end
