@@ -1,6 +1,9 @@
 - asin         = res.get('ASIN')
 - release_date = res.get('ItemAttributes/ReleaseDate')
 - content      = res.get('EditorialReviews/EditorialReview/Content')
+- similar_string = ""
+- similar_goods_asins.each do |similar_good_asin|
+  - similar_string += "[asin:#{ similar_good_asin }:image] "
 
 [asin:#{ asin }:image:large]
 \====
@@ -16,8 +19,6 @@
   * 同じアイドルの商品
   - relative_asins.each do |relative_asin|
     [asin:#{ relative_asin }:image]
-- if similar_goods_asins.present?
+- if similar_string != ""
   * 類似の商品
-  - similar_goods_asins.each do |similar_good_asin|
-    [asin:#{ similar_good_asin }:image]
-
+  = similar_string
