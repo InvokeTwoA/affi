@@ -39,4 +39,5 @@ gem 'bcrypt', '~> 3.1.7'
 # cron
 gem 'whenever'
 
-
+# hatena api
+gem 'atomutil'
