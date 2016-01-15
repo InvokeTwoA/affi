@@ -56,7 +56,7 @@ class Article < ActiveRecord::Base
 
         atom_res = client.create_entry(url, entry);
         print "atom_res=#{atom_res}"
-        Article.create(title: title, body: body, asin: asin)
+        Article.create(title: title, body: body, asin: asin, author: author)
         break
       end
       puts 'complete'
@@ -102,7 +102,7 @@ class Article < ActiveRecord::Base
         )
         puts body
         title        = res.get('ItemAttributes/Title')
-        Article.create(title: title, body: body, asin: asin)
+        Article.create(title: title, body: body, asin: asin, author: author)
         break
       end
     end

@@ -5,11 +5,13 @@
       %th.center タイトル
       %th.center 本文
       %th.center ASIN
+      %th.center AUTHOR
       %th.center 作成日
     - @articles.each do |article|
       %tr
         %td.center= article.id
         %td.center= article.title
-        %td.center= article.body
+        %td.center= simple_format article.body
         %td.center= article.asin
+        %td.center= article.author
         %td.center= l article.created_at
