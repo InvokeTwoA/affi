@@ -30,6 +30,7 @@ class Article < ActiveRecord::Base
         end
 
         # 関連商品を取得
+        author = res.get('Author')
         relative_asins = self.get_relative_asins(author, asin)
         body = ApplicationController.new.render_to_string(
           :template => 'roots/_article',
