@@ -3,7 +3,7 @@ class ArticlesController < ApplicationController
   before_filter :authenticate
 
   def index
-    @articles = Article.recent
+    @articles = Article.recent.page(params[:page]).per(30).uniq
   end
   
   def create
@@ -12,6 +12,13 @@ class ArticlesController < ApplicationController
   rescue => e
     Article.create(title: '投稿失敗', body: e.message, failed_flag: true)
     redirect_to :back, flash: { error: "記事投稿に失敗しました。\n #{ e.message }" }
+  end
+
+  def destroy
+    Article.destroy(params[:id])
+    redirect_to :back, notice: '削除完了しました'
+  rescue => e
+    redirect_to :back, flash: { error: "削除に失敗しました。\n #{ e.message }" }
   end
 
   protected

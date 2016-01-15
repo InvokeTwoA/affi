@@ -1,0 +1,20 @@
+= paginator.render do
+  .clearfix
+    %ul.pagination
+      = first_page_tag unless current_page.first?
+      = prev_page_tag unless current_page.first?
+      - each_page do |page|
+        - if page.left_outer? || page.right_outer? || page.inside_window?
+          = page_tag page
+        - elsif !page.was_truncated?
+          = gap_tag
+      = next_page_tag unless current_page.last?
+      = last_page_tag unless current_page.last?
+    .pagination-info
+      %span.total= collection.total_count
+      = "件中 (#{(current_page.to_i - 1) * per_page + 1 }〜#{collection.total_count.to_i / (current_page.to_i * per_page.to_i) == 0 ? collection.total_count : current_page.to_i *  per_page.to_i }件)"
+- if collection.total_count.to_i < per_page.to_i
+  .clearfix
+    .pagination-info
+      %span.total= collection.total_count
+      = "件"
