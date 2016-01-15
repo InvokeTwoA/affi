@@ -51,10 +51,8 @@ class Article < ActiveRecord::Base
         title        = res.get('ItemAttributes/Title')
         entry = Atom::Entry.new(
           title: title.encode('BINARY', 'BINARY'),
-          content: body.encode('BINARY', 'BINARY'),
-          category: author
+          content: body.encode('BINARY', 'BINARY')
          )
-
         atom_res = client.create_entry(url, entry);
         print "atom_res=#{atom_res}"
         Article.create(title: title, body: body, asin: asin, author: author)
