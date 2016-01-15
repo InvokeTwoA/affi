@@ -13,6 +13,11 @@
   * 内容紹介
   #{ content }
 - if relative_asins.present?
-  * 関連商品
+  * 同じアイドルの商品
   - relative_asins.each do |relative_asin|
     [asin:#{ relative_asin }:image]
+- if similar_goods_asins.present?
+  * 類似の商品
+  - similar_goods_asins.each do |similar_good_asin|
+    [asin:#{ similar_good_asin }:image]
+

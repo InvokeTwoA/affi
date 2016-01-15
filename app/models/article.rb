@@ -29,13 +29,22 @@ class Article < ActiveRecord::Base
           next
         end
 
-        # 関連商品を取得
+        # 同じ人の商品を取得
         author = res.get('Author')
         relative_asins = self.get_relative_asins(author, asin)
+
+        # 関連商品
+        similar_goods_asins = self.get_similar_goods_asins(res)
+
+        # 記事作成
         body = ApplicationController.new.render_to_string(
           :template => 'roots/_article',
           :layout => false,
-          :locals => { :res => res, relative_asins: relative_asins }
+          :locals => { 
+            :res => res, 
+            relative_asins: relative_asins,
+            similar_goods_asins: similar_goods_asins 
+          }
         )
 
         # 記事作成
@@ -78,10 +87,18 @@ class Article < ActiveRecord::Base
         author = res.get('Author')
         relative_asins = self.get_relative_asins(author, asin)
 
+        # 関連商品
+        similar_goods_asins = self.get_similar_goods_asins(res)
+
+        # 記事作成
         body = ApplicationController.new.render_to_string(
           :template => 'roots/_article',
           :layout => false,
-          :locals => { :res => res, relative_asins: relative_asins }
+          :locals => { 
+            :res => res, 
+            relative_asins: relative_asins,
+            similar_goods_asins: similar_goods_asins 
+          }
         )
         puts body
         title        = res.get('ItemAttributes/Title')
@@ -101,6 +118,18 @@ class Article < ActiveRecord::Base
         relative_asins.push relative_asin
       end
       relative_asins
+    end
+
+    # amazon API の関連商品
+    def get_similar_goods_asins(res)
+      similar_goods_asins = []
+      relative_goods = res.get('SimilarProducts')
+      if relative_goods.similar_products.any?
+        relative_goods.similar_products.each do |item|
+          similar_goods_asins.push item.get('ASIN')
+        end
+      end
+      similar_goods_asins
     end
   end
 end
