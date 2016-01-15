@@ -1,0 +1,18 @@
+- asin         = res.get('ASIN')
+- release_date = res.get('ItemAttributes/ReleaseDate')
+- content      = res.get('EditorialReviews/EditorialReview/Content')
+
+
+[asin:#{ asin }:image:large]
+【目次】
+[:contents]
+- if release_date.present?
+  * 発売日
+  #{ release_date }
+- if content.present?
+  * 内容紹介
+  #{ content }
+- if relative_asins.present?
+  * 関連商品
+  - relative_asins.each do |relative_asin|
+    [asin:#{ relative_asin }:image]

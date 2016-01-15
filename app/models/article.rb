@@ -17,51 +17,89 @@ class Article < ActiveRecord::Base
       )
       client = Atompub::Client.new(auth: auth)
 
-      response = self.search_amazon
+      word = ["グラビアアイドル", "アイドル写真集"].sample
+      response = self.search_amazon(word)
       puts 'search amazon'
       puts "count = #{response.items.count}"
       response.items.each_with_index do |res, i|
-        puts "i=#{i}"
+        # 商品情報を取得
         asin = res.get('ASIN')
         if Article.where(asin: asin).any?
           puts "asin #{asin} already exist"
           next
         end
-        title        = res.get('ItemAttributes/Title')
-        release_date = res.get('ItemAttributes/ReleaseDate')
-        content      = res.get('EditorialReviews/EditorialReview/Content')
 
+        # 関連商品を取得
+        relative_asins = self.get_relative_asins(author, asin)
+        body = ApplicationController.new.render_to_string(
+          :template => 'roots/_article',
+          :layout => false,
+          :locals => { :res => res, relative_asins: relative_asins }
+        )
+
+        # 記事作成
+        title        = res.get('ItemAttributes/Title')
         entry = Atom::Entry.new(
           title: title.encode('BINARY', 'BINARY'),
-          content: <<"ENDOFCONENT".encode('BINARY', 'BINARY'))
-====
-[asin:#{ asin }:image:large]
-【目次】
-[:contents]
-* 発売日
-#{ release_date }
-* 内容紹介
-#{ content }
+          content: body.encode('BINARY', 'BINARY')
+         )
 
-ENDOFCONENT
-        res = client.create_entry(url, entry);
-        Article.create(title: "now #{Time.now}", body: res, asin: asin)
+        atom_res = client.create_entry(url, entry);
+        print "atom_res=#{atom_res}"
+        Article.create(title: title, body: body, asin: asin)
         break
       end
       puts 'complete'
     end
 
 
-    def search_amazon
+    def search_amazon(word)
       # デバッグモードで実行したい場合はコメントを外す
       Amazon::Ecs.debug = true
-      res = Amazon::Ecs.item_search("グラビアアイドル",
+      res = Amazon::Ecs.item_search(word,
         search_index:   'Books',
         response_group: 'Medium',
         country:        'jp'
       )
       res
     end
-  end
 
+    def test
+      word = ["グラビアアイドル", "アイドル写真集"].sample
+      response = self.search_amazon(word)
+      response.items.each_with_index do |res, i|
+        asin = res.get('ASIN')
+        if Article.where(asin: asin).any?
+          puts "asin #{asin} already exist"
+          next
+        end
+
+        author = res.get('Author')
+        relative_asins = self.get_relative_asins(author, asin)
+
+        body = ApplicationController.new.render_to_string(
+          :template => 'roots/_article',
+          :layout => false,
+          :locals => { :res => res, relative_asins: relative_asins }
+        )
+        puts body
+        title        = res.get('ItemAttributes/Title')
+        Article.create(title: title, body: body, asin: asin)
+        break
+      end
+    end
+
+    def get_relative_asins(author, asin)
+      return if author.blank?
+      puts "author = #{author}"
+      relative_asins = []
+      relative_response = self.search_amazon(author)
+      relative_response.items.each_with_index do |relative_res|
+        relative_asin = relative_res.get('ASIN')
+        next if relative_asin == asin
+        relative_asins.push relative_asin
+      end
+      relative_asins
+    end
+  end
 end

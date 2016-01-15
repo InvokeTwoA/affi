@@ -3,4 +3,8 @@ namespace :articles do
   task new_post: :environment do
     Article.new_post
   end
+
+  task reset_data: :environment do
+    Article.destroy_all
+  end
 end
