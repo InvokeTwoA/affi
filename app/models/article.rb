@@ -18,9 +18,13 @@ class Article < ActiveRecord::Base
       client = Atompub::Client.new(auth: auth)
 
       res2 = self.search_amazon
+      puts 'search amazon'
       res2.items do |res|
         asin = res.first_item.get('ASIN')
-        next if Article.where(asin: asin).any?
+        if Article.where(asin: asin).any?
+          puts "asin #{asin} already exist"
+          next
+        end
         title = res.first_item.get('ItemAttributes/Title')
         release_date = res.first_item.get('ItemAttributes/ReleaseDate')
         content = res.first_item.get('EditorialReviews/EditorialReview/Content')
@@ -42,12 +46,13 @@ ENDOFCONENT
         Article.create(title: "now #{Time.now}", body: res, asin: asin)
         break
       end
+      puts 'complete'
     end
 
 
     def search_amazon
       # デバッグモードで実行したい場合はコメントを外す
-      #Amazon::Ecs.debug = true
+      Amazon::Ecs.debug = true
       res = Amazon::Ecs.item_search("グラビアアイドル",
         search_index:   'Books',
         response_group: 'Medium',
