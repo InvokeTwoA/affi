@@ -1,7 +1,13 @@
 # -*- encoding: utf-8 -*-
 require 'atomutil'
+require 'rubygems'
+require 'google/api_client'
+require 'trollop'
 class Article < ActiveRecord::Base
   scope :recent, -> { order('id DESC') }
+  YOUTUBE_DEVELOPER_KEY = 'AIzaSyAzoxN3WVjJ-Oa1eu0BontCw-G8W15MyuM'
+  YOUTUBE_API_SERVICE_NAME = 'youtube'
+  YOUTUBE_API_VERSION = 'v3'
 
   class << self
     def new_post
@@ -38,7 +44,7 @@ class Article < ActiveRecord::Base
 
         # 記事作成
         body = ApplicationController.new.render_to_string(
-          :template => 'roots/_article',
+          :template => 'articles/_article',
           :layout => false,
           :locals => { 
             :res => res, 
@@ -55,7 +61,7 @@ class Article < ActiveRecord::Base
          )
         atom_res = client.create_entry(url, entry);
         print "atom_res=#{atom_res}"
-        Article.create(title: title, body: body, asin: asin, author: author)
+        Article.create(title: title, body: body, asin: asin, author: author, failed_flag: false)
         break
       end
       puts 'complete'
@@ -91,7 +97,7 @@ class Article < ActiveRecord::Base
 
         # 記事作成
         body = ApplicationController.new.render_to_string(
-          :template => 'roots/_article',
+          :template => 'articles/_article',
           :layout => false,
           :locals => { 
             :res => res, 
@@ -101,9 +107,10 @@ class Article < ActiveRecord::Base
         )
         puts body
         title        = res.get('ItemAttributes/Title')
-        Article.create(title: title, body: body, asin: asin, author: author)
+        Article.create(title: title, body: body, asin: asin, author: author, failed_flag: false)
         break
       end
+
     end
 
     def get_relative_asins(author, asin)
@@ -130,6 +137,80 @@ class Article < ActiveRecord::Base
         end
       end
       asins
+    end
+
+    def search_youtube(keyword)
+      opts = Trollop::options do
+        opt :q, keyword, :type => String, :default => 'Google'
+        opt :max_results, 'Max results', :type => :int, :default => 25
+      end
+      client, youtube = self.get_youtube_service
+      begin
+        # Call the search.list method to retrieve results matching the specified
+        # query term.
+        search_response = client.execute!(
+          :api_method => youtube.search.list,
+          :parameters => {
+            :part => 'snippet',
+            :q => opts[:q],
+            :maxResults => opts[:max_results]
+          }
+        )
+        videos = []
+        channels = []
+        playlists = []
+
+        search_response.data.items.each do |search_result|
+          case search_result.id.kind
+            when 'youtube#video'
+              videos << "#{search_result.snippet.title} (#{search_result.id.videoId})"
+            when 'youtube#channel'
+              channels << "#{search_result.snippet.title} (#{search_result.id.channelId})"
+            when 'youtube#playlist'
+              playlists << "#{search_result.snippet.title} (#{search_result.id.playlistId})"
+          end
+        end
+        puts "Videos:\n", videos, "\n"
+        puts "Channels:\n", channels, "\n"
+        puts "Playlists:\n", playlists, "\n"
+      rescue Google::APIClient::TransmissionError => e
+        puts "error"
+        puts e.result.body
+      end
+    end
+
+    def get_authenticated_service
+      client = Google::APIClient.new(
+        :application_name => $PROGRAM_NAME,
+        :application_version => '1.0.0'
+      )
+      youtube = client.discovered_api(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION)
+
+      file_storage = Google::APIClient::FileStorage.new("#{$PROGRAM_NAME}-oauth2.json")
+      if file_storage.authorization.nil?
+        client_secrets = Google::APIClient::ClientSecrets.load
+        flow = Google::APIClient::InstalledAppFlow.new(
+          :client_id => client_secrets.client_id,
+          :client_secret => client_secrets.client_secret,
+          :scope => [YOUTUBE_SCOPE]
+        )
+        client.authorization = flow.authorize(file_storage)
+      else
+        client.authorization = file_storage.authorization
+      end
+
+      return client, youtube
+    end
+
+    def get_youtube_service
+      client = Google::APIClient.new(
+        :key => YOUTUBE_DEVELOPER_KEY,
+        :authorization => nil,
+        :application_name => 'kawa-e',
+        :application_version => '1.0.0'
+      )
+      youtube = client.discovered_api(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION)
+      return client, youtube
     end
   end
 end

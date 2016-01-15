@@ -1,0 +1,363 @@
+//== Colors
+$gray-darker:   lighten(#000, 13.5%) // #222
+$gray-dark:     lighten(#000, 20%)   // #333
+$gray:          lighten(#000, 33.5%) // #555
+$gray-light:    lighten(#000, 60%)   // #999
+$gray-lighter:  lighten(#000, 93.5%) // #eee
+
+$red: #f00
+$red-dark: #c00
+$blue: #438eb9
+
+// Backgournd Colors
+$bg-blue: #438eb9
+$bg-blue-light: #6fb3e0
+$bg-orange: #f89406
+$bg-green: #87b87f
+$bg-gray: #a0a0a0
+$bg-purple:#9585bf
+
+$admin-active-color: #892e65
+$admin-color: #9585bf
+
+.gray
+  color: $gray
+.gray-light
+  color: $gray-light
+
+body
+  background-color: #fff
+  color: #333
+  font-family: verdana, arial, helvetica, sans-serif
+  font-size: 13px
+  line-height: 18px
+
+p, ol, ul, td
+  font-family: verdana, arial, helvetica, sans-serif
+  font-size: 13px
+  line-height: 18px
+
+pre
+  background-color: #eee
+  padding: 10px
+  font-size: 11px
+table.simple
+  th
+    color: #4c8fbd
+    background-color: #eef4f9
+    font-weight: normal
+div
+  &.field, &.actions
+    margin-bottom: 10px
+.error, .error a
+  color: $red-dark !important
+#notice
+  color: green
+.field_with_errors
+  padding: 2px
+  background-color: $red-dark
+  display: table
+h3.smaller
+  font-size: 18px
+label.inline.radio
+  margin-right: 13px
+#error_explanation
+  width: 450px
+  border: 2px solid $red-dark
+  padding: 7px
+  padding-bottom: 0
+  margin-bottom: 20px
+  background-color: #f0f0f0
+  h2
+    text-align: left
+    font-weight: bold
+    padding: 5px 5px 5px 15px
+    font-size: 12px
+    margin: -7px
+    margin-bottom: 0px
+    background-color: $red-dark
+    color: #fff
+  ul li
+    font-size: 12px
+    list-style: square
+.warning
+  color: $red-dark
+.search-condition
+  margin-bottom: 20px
+.date-status
+  .today
+    border-left: 4px solid $bg-blue
+  .tomorrow
+    border-left: 4px solid $bg-orange
+  .future
+    border-left: 4px solid $gray-lighter
+  .past
+    background-color: $gray-lighter
+    border-left: 4px solid $gray-lighter
+.date_range
+  &.active
+    background-color: #fff
+  &.past
+    background-color: $gray-lighter
+.table>tbody>tr.date_range.active>td
+  background-color: #fff
+.alert
+  &.alert-notice
+    background-color: #fcf8e3
+    border-color: #faebcc
+    color: #8a6d3b
+  &.alert-error
+    background-color: #f2dede
+    border-color: #ebccd1
+    color: #a94442
+  .alert-title
+    margin: 0 0 10px 0
+.no-skin
+  .nav-list.nav-admin
+    &>li, &>li.highlight
+      &:before
+        background-color: $admin-active-color
+      &>a
+        color: $admin-color
+      &:hover>a, &.active>a, &.active
+        color: $admin-active-color
+        &:after
+          border-right-color: $admin-active-color
+.label
+  &.officer
+    background-color: $bg-purple !important
+  &.employee
+    background-color: $bg-blue !important
+  &.contract-employee
+    background-color: $bg-blue-light !important
+  &.part-time-worker
+    background-color: $bg-orange !important
+  &.temporary-employee
+    background-color: $bg-green !important
+  &.outsource
+    background-color: $bg-gray !important
+  &.default
+    background-color: $bg-blue-light !important
+  &.label-admin
+    background-color: $admin-active-color !important
+  &.masters_hr_note_category
+    &.interview
+      background-color: $bg-green !important
+.disabled
+  background-color: $bg-gray !important
+.pagination-info
+  display: inline-block
+  *display: inline
+  zoom: 1
+  margin-top: 15px
+  padding: 2px 0
+  float: right
+  .total
+    font-size: 19px
+    color: $blue
+.list-info
+  .total
+    font-size: 19px
+    color: $blue
+// input
+input.employee_no
+  width: 10rem
+select.time
+  width: 50px
+  float: none
+p.help-block
+  clear: both
+// condition
+.condition-box
+  background-color: $gray-lighter
+  padding: 20px
+
+// header title
+.admin
+  .page-header h1
+    color: $admin-active-color
+h4.smaller
+  margin: 5px 0
+h5.smaller
+  margin: 2px 0
+
+.date-box
+  width: 90px
+  height: 70px
+.list-item
+  padding: 10px 4px
+  border-bottom: 1px dotted #ccc
+  position: relative
+  border-left: 1px dotted #FFF
+  border-right: 1px dotted #FFF
+.section
+  margin-bottom: 20px
+.data-list
+  border: 1px solid $gray-lighter
+input.datepicker
+  width: 100px
+.input-range-sepaleter
+  width: 20px
+  text-align: center
+  float: left
+  line-height: 2
+.ace-icon
+  &.fa-spin
+    font-size: 3rem
+    margin: 10px
+a.more
+  display: inline-block
+  padding: 2px 5px
+  margin: 5px
+.grid-item
+  float: left
+  margin: 0 10px 5px 0
+  label
+    line-height: 3rem
+.data-table
+  display: table
+  .data-row
+    display: table-row
+    border-top: 1px dotted #DCEBF7
+  .data-label
+    color: #336199
+    display: table-cell
+    vertical-align: middle
+    text-align: center
+    padding: 6px 10px 6px 4px
+    font-weight: normal
+  .data-value
+    display: table-cell
+    padding: 6px 4px 6px 6px
+    padding-left: 12px
+.question_number
+  font-size: 2rem
+  padding: 5px
+  display: inline-block
+  color: $bg-orange
+.question_title
+  border-bottom: 1px solid #fdd0ac
+  font-size: 16px
+.muted
+  color: $gray-light
+input
+  &.radio_buttons, &.check_boxes
+    width: 5px
+select
+  &.select
+    width: auto
+#training-report-items
+  .answer-block
+    padding: 5px 10px
+    textarea.text
+      min-height: 10rem
+.contents-footer
+  padding: 10px
+  margin-top: 50px
+  background-color: #eee
+  .actions
+    text-align: center
+.choice_term_links
+  margin: 0 0 10px
+  padding: 0
+  list-style-type: none
+  li
+    display: inline-block
+    padding: 1px 10px
+    text-align: center
+    border-right: 1px solid #cccccc
+    font-size: 1rem
+.popover-title
+  padding: 4px 8px
+  font-size: 1.2rem
+.popover-content
+  padding: 8px
+  font-size: 1rem
+.header-subinfo
+  margin: 0 0 7px
+#hr-notes
+  .notes-content
+    padding: 10px
+  .notes-footer
+    border-top: 1px dotted $gray-lighter
+    padding: 10px
+.help-block
+  font-size: 90%
+  color: $gray-light
+.hint-block
+  padding: 10px
+  background-color: #fcfcfc
+  border: 1px solid #eee
+  margin-bottom: 10px
+  dl
+    margin-bottom: 5px
+input:disabled, select:disabled, textearea:disabled
+  background-color: $gray-lighter
+.breadcrumbs
+  min-height: 26px
+  line-height: 20px
+.breadcrumb
+  font-size: 11px
+.modal-dialog
+  background-color: #fff
+.label
+  &.masters_hr_note_category
+    font-size: 0.6rem
+    width: 77px
+    &.health
+      background-color: $bg-orange !important
+    &.career
+      background-color: $bg-blue !important
+    &.follow
+      background-color: $bg-green !important
+    &.sharing
+      background-color: $bg-purple !important
+    &.other
+      background-color: $bg-gray !important
+    &.default
+      background-color: $bg-blue-light !important
+.label-left
+  position: absolute!important
+  top: -2px
+  right: -2px
+  padding: 1px 3px
+  text-align: center
+  font-size: 12px
+  color: #FFF
+.check_box_item
+  margin-right: 10px
+  .check_box
+    margin-right: 5px
+.grade.executive_manager
+  color: $blue
+  font-weight: bold
+.no-padding .row
+  margin-left: 0
+  margin-right: 0
+a.readmore
+  margin: 10px 0
+  padding: 3px 0
+.sidebar .nav-list
+  .use-badge
+    margin-right: 25px
+.action-row
+  padding: 10px 0
+.table-bordered-simple
+  &>thead>tr>th, &>tbody>tr>th, &>tfoot>tr>th, &>thead>tr>td, &>tbody>tr>td, &>tfoot>tr>td
+    border-right: none
+    border-left: none
+@media print
+  #btn-scroll-up
+    display: none
+  .main-content
+    margin: 0
+  #navbar
+    display: none
+  #sidebar
+    display: none
+  #breadcrumbs
+    display: none
+  #page-header
+    display: none
+  .print-none
+    display: none

@@ -14,7 +14,7 @@
   #{ release_date }
 - if content.present? && content.length > 2
   * 内容紹介
-  #{ content }
+  = simple_format content
 - if relative_asins.present?
   * 同じアイドルの商品
   - relative_asins.each do |relative_asin|

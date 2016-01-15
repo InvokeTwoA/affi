@@ -44,3 +44,7 @@ gem 'atomutil'
 
 # amazon
 gem 'amazon-ecs'
+
+# youtube
+gem 'google-api-client', '~> 0.7.1'
+gem 'trollop'
