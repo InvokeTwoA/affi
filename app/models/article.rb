@@ -59,7 +59,7 @@ class Article < ActiveRecord::Base
       Amazon::Ecs.debug = true
       res = Amazon::Ecs.item_search(word,
         search_index:   'Books',
-        response_group: 'Medium',
+        response_group: 'Large',
         country:        'jp'
       )
       res

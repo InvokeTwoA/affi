@@ -9,7 +9,7 @@
 - if release_date.present?
   * 発売日
   #{ release_date }
-- if content.present?
+- if content.present? && content.length > 2
   * 内容紹介
   #{ content }
 - if relative_asins.present?
