@@ -19,7 +19,7 @@ class Article < ActiveRecord::Base
 
       response = self.search_amazon
       puts 'search amazon'
-      puts "count = #{res2.items.count}"
+      puts "count = #{response.items.count}"
       response.items.each_with_index do |res, i|
         puts "i=#{i}"
         asin = res.first_item.get('ASIN')
