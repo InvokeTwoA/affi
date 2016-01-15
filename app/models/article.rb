@@ -51,7 +51,8 @@ class Article < ActiveRecord::Base
         title        = res.get('ItemAttributes/Title')
         entry = Atom::Entry.new(
           title: title.encode('BINARY', 'BINARY'),
-          content: body.encode('BINARY', 'BINARY')
+          content: body.encode('BINARY', 'BINARY'),
+          category: author
          )
 
         atom_res = client.create_entry(url, entry);
@@ -122,19 +123,12 @@ class Article < ActiveRecord::Base
 
     # amazon API の関連商品
     def get_similar_goods_asins(res)
-      asin = res.get('SimilarProducts/SimilarProduct/ASIN')
       asins = []
-      asins.push asin if asin.present?
-=begin
-      similar_goods_asins = []
-      relative_goods = res.get('SimilarProducts')
-      if relative_goods.similar_products.any?
-        relative_goods.similar_products.each do |item|
-          similar_goods_asins.push item.get('ASIN')
-        end
+      #asin = res.get('SimilarProducts/SimilarProduct/ASIN')
+      similar_products = res.get_element('SimilarProducts')
+      similar_products.elem.children.each do |child|
+        asins.push child.xpath("ASIN").text
       end
-      similar_goods_asins
-=end
     end
   end
 end
