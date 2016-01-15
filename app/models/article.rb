@@ -22,14 +22,14 @@ class Article < ActiveRecord::Base
       puts "count = #{response.items.count}"
       response.items.each_with_index do |res, i|
         puts "i=#{i}"
-        asin = res.first_item.get('ASIN')
+        asin = res.get('ASIN')
         if Article.where(asin: asin).any?
           puts "asin #{asin} already exist"
           next
         end
-        title = res.first_item.get('ItemAttributes/Title')
-        release_date = res.first_item.get('ItemAttributes/ReleaseDate')
-        content = res.first_item.get('EditorialReviews/EditorialReview/Content')
+        title        = res.get('ItemAttributes/Title')
+        release_date = res.get('ItemAttributes/ReleaseDate')
+        content      = res.get('EditorialReviews/EditorialReview/Content')
 
         entry = Atom::Entry.new(
           title: title.encode('BINARY', 'BINARY'),
