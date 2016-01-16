@@ -45,7 +45,7 @@ class Article < ActiveRecord::Base
         # 記事タイトル(特定アイドル名だったらカテゴリにする)
         title = res.get('ItemAttributes/Title')
         category = nil
-        if SEARCH_IDOL.include? word
+        if Keyword.idol.pluck(:name).include? word
           title = "[#{word}]#{title}"
           category = word
         end
@@ -84,8 +84,8 @@ class Article < ActiveRecord::Base
       res
     end
 
-    def test
-      word = SEARCH_WORD.sample
+    def test(mode=nil)
+      word = Keyword.select_word(mode)
       response = self.search_amazon(word)
       response.items.each_with_index do |res, i|
         asin = res.get('ASIN')
@@ -110,7 +110,6 @@ class Article < ActiveRecord::Base
             similar_goods_asins: similar_goods_asins 
           }
         )
-        puts body
         title        = res.get('ItemAttributes/Title')
         Article.create(title: title, body: body, asin: asin, author: author, failed_flag: false)
         break
