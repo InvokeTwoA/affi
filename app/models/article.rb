@@ -66,7 +66,7 @@ class Article < ActiveRecord::Base
         title = res.get('ItemAttributes/Title')
         category = nil
         if SEARCH_IDOL.include? word
-          title = "*[#{word}]#{title}"
+          title = "[#{word}]#{title}"
           category = word
         end
 
