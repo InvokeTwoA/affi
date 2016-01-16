@@ -7,32 +7,13 @@ class Article < ActiveRecord::Base
   scope :recent, -> { order('id DESC') }
   scope :success, -> { where("failed_flag != ?", false) }
 
-  SEARCH_WORD = [
-    "グラビアアイドル", "アイドル写真集", 'レースクィーン', 'アイドルイメージビデオ',
-  ]
-  SEARCH_IDOL = [
-    '吉木りさ', '佐野ひなこ', '中村静香', '小間千代', '武田玲奈'
-  ]
-
   YOUTUBE_DEVELOPER_KEY = 'AIzaSyAzoxN3WVjJ-Oa1eu0BontCw-G8W15MyuM'
   YOUTUBE_API_SERVICE_NAME = 'youtube'
   YOUTUBE_API_VERSION = 'v3'
 
   class << self
     def new_post(mode = nil)
-      url = 'https://blog.hatena.ne.jp/siki_kawa/kawa-e.hateblo.jp/atom/entry'
-
-      # WSSE authentication
-      user = 'siki_kawa'
-      api_key = 'rfu388pqwx'
-
-      auth = Atompub::Auth::Wsse.new(
-        username: user,
-        password: api_key
-      )
-      client = Atompub::Client.new(auth: auth)
-
-      word = self.select_word(mode)
+      word = Keyword.select_word(mode)
       response = self.search_amazon(word)
       puts 'search amazon'
       puts "count = #{response.items.count}"
@@ -61,7 +42,6 @@ class Article < ActiveRecord::Base
             similar_goods_asins: similar_goods_asins 
           }
         )
-
         # 記事タイトル(特定アイドル名だったらカテゴリにする)
         title = res.get('ItemAttributes/Title')
         category = nil
@@ -70,22 +50,31 @@ class Article < ActiveRecord::Base
           category = word
         end
 
-        # 記事投稿
-        entry = Atom::Entry.new(
-          title: title.encode('BINARY', 'BINARY'),
-          content: body.encode('BINARY', 'BINARY')
-         )
-        atom_res = client.create_entry(url, entry);
-        print "atom_res=#{atom_res}"
+        # はてなブログに投稿
+        self.post_hatena_blog(title, body)
+
         Article.create(title: title, body: body, asin: asin, author: author, failed_flag: false, category: category)
         break
       end
-      puts 'complete'
     end
 
+    def post_hatena_blog(title, body)
+      url = 'https://blog.hatena.ne.jp/siki_kawa/kawa-e.hateblo.jp/atom/entry'
+      user = 'siki_kawa'
+      api_key = 'rfu388pqwx'
+      auth = Atompub::Auth::Wsse.new(
+        username: user,
+        password: api_key
+      )
+      client = Atompub::Client.new(auth: auth)
+      entry = Atom::Entry.new(
+        title: title.encode('BINARY', 'BINARY'),
+        content: body.encode('BINARY', 'BINARY')
+       )
+      client.create_entry(url, entry);
+    end
 
     def search_amazon(word)
-      # デバッグモードで実行したい場合はコメントを外す
       Amazon::Ecs.debug = true
       res = Amazon::Ecs.item_search(word,
         search_index:   'Books',
@@ -227,14 +216,6 @@ class Article < ActiveRecord::Base
       )
       youtube = client.discovered_api(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION)
       return client, youtube
-    end
-
-    def select_word(mode)
-      if mode == "idol"
-        word = SEARCH_IDOL.sample
-      else
-        word = (SEARCH_WORD + SEARCH_IDOL).sample
-      end
     end
   end
 end

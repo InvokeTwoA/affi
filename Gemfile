@@ -19,6 +19,8 @@ gem 'kaminari'
 gem 'twitter-bootswatch-rails', '3.2.0'
 gem 'twitter-bootswatch-rails-helpers'
 gem 'inherited_resources', '~> 1.5.0'
+gem 'ransack'
+gem 'simple_form', '~> 3.0.2'
 
 group :development, :test do
   gem 'mysql2', '~> 0.3.20'
@@ -33,7 +35,6 @@ end
 
 gem "therubyracer"
 gem 'sprockets-rails', '2.3.3'
-#gem 'bcrypt', '~> 3.1.7'
 gem 'bcrypt', '~> 3.1.7'
 
 # cron

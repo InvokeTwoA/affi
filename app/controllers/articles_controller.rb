@@ -1,6 +1,5 @@
 class ArticlesController < ApplicationController
   #inherit_resources
-  before_filter :authenticate
 
   def index
     @articles = Article.recent.page(params[:page]).per(30).uniq
@@ -21,10 +20,4 @@ class ArticlesController < ApplicationController
     redirect_to :back, flash: { error: "削除に失敗しました。\n #{ e.message }" }
   end
 
-  protected
-  def authenticate
-    authenticate_or_request_with_http_basic('Administration') do |username, password|
-      username == 'ike' && password == 'men'
-    end
-  end
 end
