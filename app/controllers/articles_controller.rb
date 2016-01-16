@@ -7,7 +7,7 @@ class ArticlesController < ApplicationController
   end
   
   def create
-    Article.new_post
+    Article.new_post(params[:mode])
     redirect_to :back, notice: '投稿完了しました'
   rescue => e
     Article.create(title: '投稿失敗', body: e.message, failed_flag: true)

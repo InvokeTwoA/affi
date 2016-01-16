@@ -19,7 +19,7 @@ class Article < ActiveRecord::Base
   YOUTUBE_API_VERSION = 'v3'
 
   class << self
-    def new_post
+    def new_post(mode = nil)
       url = 'https://blog.hatena.ne.jp/siki_kawa/kawa-e.hateblo.jp/atom/entry'
 
       # WSSE authentication
@@ -32,7 +32,7 @@ class Article < ActiveRecord::Base
       )
       client = Atompub::Client.new(auth: auth)
 
-      word = (SEARCH_WORD + SEARCH_IDOL).sample
+      word = self.select_word(mode)
       response = self.search_amazon(word)
       puts 'search amazon'
       puts "count = #{response.items.count}"
@@ -64,8 +64,10 @@ class Article < ActiveRecord::Base
 
         # 記事タイトル(特定アイドル名だったらカテゴリにする)
         title = res.get('ItemAttributes/Title')
+        category = nil
         if SEARCH_IDOL.include? word
           title = "*[#{word}]#{title}"
+          category = word
         end
 
         # 記事投稿
@@ -75,7 +77,7 @@ class Article < ActiveRecord::Base
          )
         atom_res = client.create_entry(url, entry);
         print "atom_res=#{atom_res}"
-        Article.create(title: title, body: body, asin: asin, author: author, failed_flag: false)
+        Article.create(title: title, body: body, asin: asin, author: author, failed_flag: false, category: category)
         break
       end
       puts 'complete'
@@ -225,6 +227,14 @@ class Article < ActiveRecord::Base
       )
       youtube = client.discovered_api(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION)
       return client, youtube
+    end
+
+    def select_word(mode)
+      if mode == "idol"
+        word = SEARCH_IDOL.sample
+      else
+        word = (SEARCH_WORD + SEARCH_IDOL).sample
+      end
     end
   end
 end

@@ -1,6 +1,7 @@
 
 .pull-right
   = link_to '記事を投稿する', articles_path, method: :post, class: 'btn btn-success'
+  = link_to '記事を投稿する(特定アイドル)', articles_path(mode: 'idol'), method: :post, class: 'btn btn-success'
 #{ @articles.total_count }件(正常終了： #{ Article.success.count } 件)
 .paginate
   = paginate @articles
@@ -11,6 +12,7 @@
       %th.center タイトル
       %th.center 本文
       %th.center ASIN
+      %th.center カテゴリ
       %th.center AUTHOR
       %th.center 作成日
       %th.center アクション
@@ -20,6 +22,7 @@
         %td.center{ class: ("red" if article.failed_flag?) }= article.title
         %td.center= simple_format article.body
         %td.center= article.asin
+        %td.center= article.category
         %td.center= article.author
         %td.center= l article.created_at
         %td.center= link_to '削除', article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger'
