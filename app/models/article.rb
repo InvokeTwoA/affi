@@ -7,6 +7,13 @@ class Article < ActiveRecord::Base
   scope :recent, -> { order('id DESC') }
   scope :success, -> { where("failed_flag != ?", false) }
 
+  SEARCH_WORD = [
+    "グラビアアイドル", "アイドル写真集", 'レースクィーン', 'アイドルイメージビデオ',
+  ]
+  SEARCH_IDOL = [
+    '吉木りさ', '佐野ひなこ', '中村静香', '小間千代', '武田玲奈'
+  ]
+
   YOUTUBE_DEVELOPER_KEY = 'AIzaSyAzoxN3WVjJ-Oa1eu0BontCw-G8W15MyuM'
   YOUTUBE_API_SERVICE_NAME = 'youtube'
   YOUTUBE_API_VERSION = 'v3'
@@ -25,7 +32,7 @@ class Article < ActiveRecord::Base
       )
       client = Atompub::Client.new(auth: auth)
 
-      word = ["グラビアアイドル", "アイドル写真集", 'レースクィーン'].sample
+      word = (SEARCH_WORD + SEARCH_IDOL).sample
       response = self.search_amazon(word)
       puts 'search amazon'
       puts "count = #{response.items.count}"
@@ -55,8 +62,13 @@ class Article < ActiveRecord::Base
           }
         )
 
-        # 記事作成
-        title        = res.get('ItemAttributes/Title')
+        # 記事タイトル(特定アイドル名だったらカテゴリにする)
+        title = res.get('ItemAttributes/Title')
+        if SEARCH_IDOL.include? word
+          title = "*[#{word}]#{title}"
+        end
+
+        # 記事投稿
         entry = Atom::Entry.new(
           title: title.encode('BINARY', 'BINARY'),
           content: body.encode('BINARY', 'BINARY')
@@ -82,7 +94,7 @@ class Article < ActiveRecord::Base
     end
 
     def test
-      word = ["グラビアアイドル", "アイドル写真集"].sample
+      word = SEARCH_WORD.sample
       response = self.search_amazon(word)
       response.items.each_with_index do |res, i|
         asin = res.get('ASIN')
