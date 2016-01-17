@@ -75,8 +75,9 @@ class Article < ActiveRecord::Base
     end
 
     def search_amazon(word)
-      search_index = ['Books', 'DVD'].sample
-      search_index = 'DVD'
+      #search_index = ['Books', 'DVD'].sample
+      #search_index = 'DVD'
+      search_index = 'Books'
       Amazon::Ecs.debug = true
       res = Amazon::Ecs.item_search(word,
         search_index:   search_index,
