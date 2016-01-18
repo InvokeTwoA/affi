@@ -17,44 +17,48 @@ class Article < ActiveRecord::Base
       response = self.search_amazon(word)
       puts 'search amazon'
       puts "count = #{response.items.count}"
-      response.items.each_with_index do |res, i|
-        # 商品情報を取得
-        asin = res.get('ASIN')
-        if Article.where(asin: asin).any?
-          puts "asin #{asin} already exist"
-          next
+      if response.items.count == 0
+        Article.create(title: word, body: "ヒット件数が0件でした", asin: nil, author: nil, failed_flag: true, category: nil)
+      else 
+        response.items.each_with_index do |res, i|
+          # 商品情報を取得
+          asin = res.get('ASIN')
+          if Article.where(asin: asin).any?
+            puts "asin #{asin} already exist"
+            next
+          end
+
+          # 同じ人の商品を取得
+          author = res.get('Author')
+          relative_asins = self.get_relative_asins(author, asin)
+
+          # 関連商品
+          similar_goods_asins = self.get_similar_goods_asins(res)
+
+          # 記事作成
+          body = ApplicationController.new.render_to_string(
+            :template => 'articles/_article',
+            :layout => false,
+            :locals => { 
+              :res => res, 
+              relative_asins: relative_asins,
+              similar_goods_asins: similar_goods_asins 
+            }
+          )
+          # 記事タイトル(特定アイドル名だったらカテゴリにする)
+          title = res.get('ItemAttributes/Title')
+          category = nil
+          if Keyword.idol.pluck(:name).include? word
+            title = "[#{word}]#{title}"
+            category = word
+          end
+
+          # はてなブログに投稿
+          self.post_hatena_blog(title, body)
+
+          Article.create(title: title, body: body, asin: asin, author: author, failed_flag: false, category: category)
+          break
         end
-
-        # 同じ人の商品を取得
-        author = res.get('Author')
-        relative_asins = self.get_relative_asins(author, asin)
-
-        # 関連商品
-        similar_goods_asins = self.get_similar_goods_asins(res)
-
-        # 記事作成
-        body = ApplicationController.new.render_to_string(
-          :template => 'articles/_article',
-          :layout => false,
-          :locals => { 
-            :res => res, 
-            relative_asins: relative_asins,
-            similar_goods_asins: similar_goods_asins 
-          }
-        )
-        # 記事タイトル(特定アイドル名だったらカテゴリにする)
-        title = res.get('ItemAttributes/Title')
-        category = nil
-        if Keyword.idol.pluck(:name).include? word
-          title = "[#{word}]#{title}"
-          category = word
-        end
-
-        # はてなブログに投稿
-        self.post_hatena_blog(title, body)
-
-        Article.create(title: title, body: body, asin: asin, author: author, failed_flag: false, category: category)
-        break
       end
     end
 
