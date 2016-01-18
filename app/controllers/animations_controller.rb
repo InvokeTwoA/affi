@@ -38,6 +38,7 @@ class AnimationsController < ApplicationController
       :public_url,
       :story_no,
       :pv_url,
+      :blog_id
       :description,
     )
   end
