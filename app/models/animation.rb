@@ -26,7 +26,7 @@ class Animation < ActiveRecord::Base
   end
 
   def youtube_url(no)
-    "[https://www.youtube.com/results?search_query=#{self.title}%E3%80%80#{no}:title=#{no}話]]"
+    "[https://www.youtube.com/results?search_query=#{self.title}%E3%80%80#{no}:title=#{no}話]"
   end
 
   def post_hatena_blog(title, body)
@@ -42,11 +42,17 @@ class Animation < ActiveRecord::Base
       title: title.encode('BINARY', 'BINARY'),
       content: body.encode('BINARY', 'BINARY')
      )
-    if self.blog_url.nil?
+    if self.blog_id.nil?
       url = 'https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/entry'
       client.create_entry(url, entry);
     else 
-      url = "https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/blog/#{self.blog_url}"
+      #url = "https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/blog/#{self.blog_id}"
+      url = "https://blog.hatena.ne.jp/siki_kawa/atom/blog/#{self.blog_id}"
+      Rails.logger.info "url=#{url}"
+      entry = Atom::Entry.new(
+        title: title.encode('BINARY', 'BINARY'),
+        content: "updateしました".encode('BINARY', 'BINARY')
+       )
       client.update_entry(url, entry);
     end
   end

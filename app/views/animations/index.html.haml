@@ -13,7 +13,7 @@
       %th.center 話数
       %th.center pv_url
       %th.center 説明文
-      %th.center ブログurl
+      %th.center ブログID
       %th.center 更新日
       %th.center アクション
     - @animations.each do |animation|
@@ -25,7 +25,7 @@
         %td.center= animation.story_no
         %td.center= animation.pv_url
         %td.center= simple_format animation.description
-        %td.center= animation.blog_url
+        %td.center= animation.blog_id
         %td.center= l animation.updated_at
         %td.center
           = link_to '記事投稿', post_article_animation_path(animation), method: :put, class: 'btn btn-info'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160118063650) do
+ActiveRecord::Schema.define(version: 20160118085058) do
 
   create_table "animations", force: true do |t|
     t.string   "title"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20160118063650) do
     t.string   "public_url"
     t.integer  "story_no"
     t.string   "pv_url"
-    t.string   "blog_url"
+    t.string   "blog_id"
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"

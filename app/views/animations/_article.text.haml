@@ -5,11 +5,11 @@
 * 内容紹介
 = simple_format resource.description
 * PV
-[#{resource.pv_url}]
+[#{resource.pv_url}:embed:cite]
 * 公式URL
 [#{resource.public_url}:embed:cite]
 
 * 無料動画
 |*話数|*ひまわり動画|*say move|*youtube|
-- (0..resource.story_no).each_with_index do |i|
+- (1..resource.story_no).each_with_index do |i|
   |#{i}| #{resource.hima_url(i)} | #{resource.say_url(i)} | #{resource.youtube_url(i)} |
