@@ -42,7 +42,7 @@ class Animation < ActiveRecord::Base
       title: title.encode('BINARY', 'BINARY'),
       content: body.encode('BINARY', 'BINARY')
      )
-    if self.blog_id.nil?
+    if self.blog_id.nil? || self.blog_id == "" || self.blog_id.blank?
       url = 'https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/entry'
       client.create_entry(url, entry);
     else 
@@ -50,6 +50,7 @@ class Animation < ActiveRecord::Base
       url = "https://d.hatena.ne.jp/siki_kawa/atom/blog/#{self.blog_id}"
       #res = client.get_entry(url);
       #Rails.logger.info "get res =#{res}"
+      Rails.logger.info "blog_id=#{self.blog_id}"
       Rails.logger.info "url=#{url}"
       res = client.update_entry(url, entry);
       Rails.logger.info "res=#{res}"
