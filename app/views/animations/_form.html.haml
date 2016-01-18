@@ -30,6 +30,10 @@
         .col-sm-5
           = f.input_field :blog_id, class: 'form-control'
       .form-group
+        %label.col-sm-2.control-label カテゴリ名
+        .col-sm-5
+          = f.text_field :category, class: 'form-control'
+      .form-group
         %label.col-sm-2.control-label 話数
         .col-sm-5
           = f.text_field :story_no, class: 'form-control'

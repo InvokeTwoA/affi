@@ -40,6 +40,7 @@ class AnimationsController < ApplicationController
       :story_no,
       :pv_url,
       :blog_id,
+      :category,
       :description,
     )
   end

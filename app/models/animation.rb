@@ -3,7 +3,7 @@ class Animation < ActiveRecord::Base
   scope :recent, -> { order('id DESC') }
 
   def post_article
-    title = "#{self.title} 無料動画まとめ"
+    title = "[#{self.category}]#{self.title} 無料動画まとめ"
     body = ApplicationController.new.render_to_string(
       :template => 'animations/_article',
       :layout => false,
