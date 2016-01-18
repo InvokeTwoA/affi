@@ -3,4 +3,10 @@ Rails.application.routes.draw do
 
   resources :articles
   resources :keywords
+  resources :animations do
+    member do
+      put :post_article
+    end
+
+  end
 end

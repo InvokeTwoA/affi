@@ -1,0 +1,37 @@
+.pull-right
+  = link_to 'データを追加する', new_animation_path, class: 'btn btn-success'
+#{ @animations.total_count }件
+.paginate
+  = paginate @animations
+.main
+  %table.table.table-striped.table-hover
+    %tr
+      %th.center ID
+      %th.center タイトル
+      %th.center タイトルASIN
+      %th.center 公式URL
+      %th.center 話数
+      %th.center pv_url
+      %th.center 説明文
+      %th.center ブログurl
+      %th.center 更新日
+      %th.center アクション
+    - @animations.each do |animation|
+      %tr
+        %td.center= animation.id
+        %td.center= animation.title
+        %td.center= animation.title_asin
+        %td.center= animation.public_url
+        %td.center= animation.story_no
+        %td.center= animation.pv_url
+        %td.center= simple_format animation.description
+        %td.center= animation.blog_url
+        %td.center= l animation.updated_at
+        %td.center
+          = link_to '記事投稿', post_article_animation_path(animation), method: :put, class: 'btn btn-info'
+          %br
+          %br
+          = link_to '編集', edit_animation_path(animation), class: 'btn btn-success'
+          %br
+          %br
+          = link_to '削除', animation_path(animation), method: :delete, data: { confirm: "#{ animation.title }を削除します。よろしいですか？" }, class: 'btn btn-danger'

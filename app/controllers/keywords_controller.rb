@@ -18,6 +18,5 @@ class KeywordsController < ApplicationController
       :name,
       :word_type,
     )
-
   end
 end
