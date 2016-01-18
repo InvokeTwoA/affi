@@ -44,15 +44,12 @@ class Animation < ActiveRecord::Base
      )
     if self.blog_id.nil? || self.blog_id == "" || self.blog_id.blank?
       url = 'https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/entry'
-      client.create_entry(url, entry);
+      res = client.create_entry(url, entry);
+      self.blog_id = res.split("/").last
+      self.save!
     else 
-      #url = "https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/blog/#{self.blog_id}"
-      #url = "https://d.hatena.ne.jp/siki_kawa/atom/blog/#{self.blog_id}"
-      # https://     blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom
       url = "https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/entry/#{self.blog_id}"
-      res = client.update_entry(url, entry);
-      Rails.logger.info "res=#{res}"
-
+      client.update_entry(url, entry);
     end
   end
 end
