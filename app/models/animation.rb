@@ -13,7 +13,7 @@ class Animation < ActiveRecord::Base
     )
 
     # はてなブログに投稿
-    self.post_hatena_blog(title, body, self.blog_url)
+    post_hatena_blog(title, body)
   end
 
   def hima_url(no)
@@ -29,29 +29,25 @@ class Animation < ActiveRecord::Base
     "[https://www.youtube.com/results?search_query=#{self.title}%E3%80%80#{no}:title=#{no}話]]"
   end
 
-  class << self
-    def post_hatena_blog(title, body, url = nil)
-      user = 'siki_kawa'
-      api_key = 'rfu388pqwx'
-      auth = Atompub::Auth::Wsse.new(
-        username: user,
-        password: api_key
-      )
-      client = Atompub::Client.new(auth: auth)
+  def post_hatena_blog(title, body)
+    user = 'siki_kawa'
+    api_key = 'rfu388pqwx'
+    auth = Atompub::Auth::Wsse.new(
+      username: user,
+      password: api_key
+    )
+    client = Atompub::Client.new(auth: auth)
 
-      entry = Atom::Entry.new(
-        title: title.encode('BINARY', 'BINARY'),
-        content: body.encode('BINARY', 'BINARY')
-       )
-      if url.nil?
-        url = 'https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/entry'
-        client.create_entry(url, entry);
-      else 
-        url = "https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/blog/#{url}"
-        client.update_entry(url, entry);
-      end
+    entry = Atom::Entry.new(
+      title: title.encode('BINARY', 'BINARY'),
+      content: body.encode('BINARY', 'BINARY')
+     )
+    if self.blog_url.nil?
+      url = 'https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/entry'
+      client.create_entry(url, entry);
+    else 
+      url = "https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/blog/#{self.blog_url}"
+      client.update_entry(url, entry);
     end
-
   end
-
 end
