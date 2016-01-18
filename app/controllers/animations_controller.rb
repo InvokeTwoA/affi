@@ -5,17 +5,23 @@ class AnimationsController < ApplicationController
     create! do
       redirect_to animations_path and return
     end
+  rescue => e
+    redirect_to :back, flash: { error: "記事投稿に失敗しました。\n #{ e.message }" }
   end
 
   def update
     update! do
       redirect_to animations_path and return
     end
+  rescue => e
+    redirect_to :back, flash: { error: "記事投稿に失敗しました。\n #{ e.message }" }
   end
 
   def post_article
     resource.post_article
     redirect_to animations_path
+  rescue => e
+    redirect_to :back, flash: { error: "記事投稿に失敗しました。\n #{ e.message }" }
   end
 
   private

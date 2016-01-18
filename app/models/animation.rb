@@ -3,16 +3,17 @@ class Animation < ActiveRecord::Base
   scope :recent, -> { order('id DESC') }
 
   def post_article
-    # もしブログurlがなければ
-
     title = "#{title} 無料動画まとめ"
     body = ApplicationController.new.render_to_string(
       :template => 'animations/_article',
-      :layout => false
+      :layout => false,
+      :locals => { 
+        :resource => self, 
+      }
     )
 
     # はてなブログに投稿
-    self.post_hatena_blog(title, body)
+    self.post_hatena_blog(title, body, self.blog_url)
   end
 
   def hima_url(no)
