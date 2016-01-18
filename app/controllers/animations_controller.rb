@@ -34,6 +34,7 @@ class AnimationsController < ApplicationController
   def animation_params
     params.require(:animation).permit(
       :title,
+      :eng_title,
       :title_asin,
       :public_url,
       :story_no,

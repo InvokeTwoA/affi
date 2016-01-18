@@ -6,6 +6,10 @@
         .col-sm-5
           = f.text_field :title, class: 'form-control'
       .form-group
+        %label.col-sm-2.control-label 英語検索タイトル
+        .col-sm-5
+          = f.text_field :eng_title, class: 'form-control'
+      .form-group
         %label.col-sm-2.control-label タイトルASIN
         .col-sm-5
           = f.text_field :title_asin, class: 'form-control'

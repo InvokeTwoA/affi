@@ -10,6 +10,6 @@
 [#{resource.public_url}:embed:cite]
 
 * 無料動画
-|*話数|*ひまわり動画|*say move|*youtube|
+|*話数|*ひまわり動画|*anitube|*ニコニコ動画|*say move|*youtube|
 - (1..resource.story_no).each_with_index do |i|
-  |#{i}| #{resource.hima_url(i)} | #{resource.say_url(i)} | #{resource.youtube_url(i)} |
+  |#{i}| #{resource.link_tag(resource.hima_url(i), i)} | #{resource.link_tag(resource.ani_url, i)} | #{resource.link_tag(resource.niko_url, i)} | #{resource.link_tag(resource.say_url(i), i)} | #{resource.link_tag(resource.youtube_url(i), i)} |

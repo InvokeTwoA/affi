@@ -16,17 +16,28 @@ class Animation < ActiveRecord::Base
     post_hatena_blog(title, body)
   end
 
-  def hima_url(no)
-    "[http://himado.in/?keyword=#{self.title}%20#{no}:title=#{no}話]"
+  def link_tag(url, no)
+    "<a target='_brank' href='#{url}'>#{no}話</a>"
+  end
 
+  def hima_url(no)
+    "http://himado.in/?keyword=#{self.title}%20#{no}:title=#{no}話"
+  end
+
+  def ani_url(no)
+    "http://www.anitube.se/search/?search_id=#{self.eng_title}%20#{no}"
+  end
+
+  def niko_url(no)
+    "http://www.nicovideo.jp/search/#{self.title}%20#{no}"
   end
 
   def say_url(no)
-    "[http://say-move.org/comesearch.php?q=#{self.title}%20#{no}&sort=comedate&genre=&sitei=&mode=&err_flg=undefined&p=1:title=#{no}話]"
+    "http://say-move.org/comesearch.php?q=#{self.title}%20#{no}&sort=comedate&genre=&sitei=&mode=&err_flg=undefined&p=1:title=#{no}話"
   end
 
   def youtube_url(no)
-    "[https://www.youtube.com/results?search_query=#{self.title}%E3%80%80#{no}:title=#{no}話]"
+    "https://www.youtube.com/results?search_query=#{self.title}%E3%80%80#{no}:title=#{no}話"
   end
 
   def post_hatena_blog(title, body)
