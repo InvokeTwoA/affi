@@ -32,7 +32,7 @@
       .form-group
         %label.col-sm-2.control-label カテゴリ名
         .col-sm-5
-          = f.text_field :category, class: 'form-control'
+          = f.input_field :category, as: :select, collection: ['2015年冬アニメ'], include_blank: false
       .form-group
         %label.col-sm-2.control-label 話数
         .col-sm-5
