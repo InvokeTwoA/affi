@@ -49,11 +49,8 @@ class Animation < ActiveRecord::Base
       #url = "https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/blog/#{self.blog_id}"
       #url = "https://d.hatena.ne.jp/siki_kawa/atom/blog/#{self.blog_id}"
       # https://     blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom
-      #url = "https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/entry/#{self.blog_id}"
-      url = "https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/#{self.blog_id}"
-      res = client.get_entry(url);
-      Rails.logger.info "get res =#{res}"
-      res = res.update_entry(url, entry);
+      url = "https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/entry/#{self.blog_id}"
+      res = client.update_entry(url, entry);
       Rails.logger.info "res=#{res}"
 
     end
