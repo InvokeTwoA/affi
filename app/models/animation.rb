@@ -47,12 +47,11 @@ class Animation < ActiveRecord::Base
       client.create_entry(url, entry);
     else 
       #url = "https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/blog/#{self.blog_id}"
-      url = "https://d.hatena.ne.jp/siki_kawa/atom/blog/#{self.blog_id}"
-      #res = client.get_entry(url);
-      #Rails.logger.info "get res =#{res}"
-      Rails.logger.info "blog_id=#{self.blog_id}"
-      Rails.logger.info "url=#{url}"
-      res = client.update_entry(url, entry);
+      #url = "https://d.hatena.ne.jp/siki_kawa/atom/blog/#{self.blog_id}"
+      url = "https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/blog/entry/#{self.blog_id}"
+      res = client.get_entry(url);
+      Rails.logger.info "get res =#{res}"
+      res = res.update_entry(url, entry);
       Rails.logger.info "res=#{res}"
 
     end
