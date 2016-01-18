@@ -47,12 +47,8 @@ class Animation < ActiveRecord::Base
       client.create_entry(url, entry);
     else 
       #url = "https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/blog/#{self.blog_id}"
-      url = "https://blog.hatena.ne.jp/siki_kawa/atom/blog/#{self.blog_id}"
+      url = "https://d.hatena.ne.jp/siki_kawa/atom/blog/#{self.blog_id}"
       Rails.logger.info "url=#{url}"
-      entry = Atom::Entry.new(
-        title: title.encode('BINARY', 'BINARY'),
-        content: "updateしました".encode('BINARY', 'BINARY')
-       )
       client.update_entry(url, entry);
     end
   end
