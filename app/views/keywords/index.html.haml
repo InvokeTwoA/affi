@@ -11,6 +11,7 @@
       %th.center タイプ
       %th.center 記事数
       %th.center 作成日
+      %th.center ステータス
       %th.center アクション
     - @keywords.each do |keyword|
       %tr
@@ -19,4 +20,10 @@
         %td.center= keyword.word_type
         %td.center= keyword.articles_count
         %td.center= l keyword.created_at
-        %td.center= link_to '削除', keyword_path(keyword), method: :delete, data: { confirm: "#{ keyword.name }を削除します。よろしいですか？" }, class: 'btn btn-danger'
+        %td.center= keyword.inactive_flag == true ? '無効' : '有効'
+        %td.center
+          = link_to '削除', keyword_path(keyword), method: :delete, data: { confirm: "#{ keyword.name }を削除します。よろしいですか？" }, class: 'btn btn-danger'
+          - if keyword.inactive_flag?
+            = link_to '有効にする', to_active_keyword_path(keyword), method: :put, class: 'btn btn-info'
+          - else
+            = link_to '無効にする', to_inactive_keyword_path(keyword), method: :put, class: 'btn btn-success'

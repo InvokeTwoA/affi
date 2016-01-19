@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160118201400) do
+ActiveRecord::Schema.define(version: 20160119163142) do
 
   create_table "animations", force: true do |t|
     t.string   "title"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20160118201400) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "eng_title"
+    t.string   "category"
   end
 
   create_table "articles", force: true do |t|
@@ -35,6 +36,7 @@ ActiveRecord::Schema.define(version: 20160118201400) do
     t.string   "author"
     t.boolean  "failed_flag"
     t.string   "category"
+    t.string   "target"
   end
 
   add_index "articles", ["category"], name: "index_articles_on_category", using: :btree
@@ -45,6 +47,7 @@ ActiveRecord::Schema.define(version: 20160118201400) do
     t.integer  "articles_count"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "inactive_flag"
   end
 
 end

@@ -1,6 +1,18 @@
 class KeywordsController < ApplicationController
   inherit_resources
 
+  def to_active
+    resource.inactive_flag = false
+    resource.save!
+    redirect_to keywords_path, notice: 'キーワードを有効にしました' and return
+  end
+
+  def to_inactive
+    resource.inactive_flag = true
+    resource.save!
+    redirect_to keywords_path, notice: 'キーワードを無効にしました' and return
+  end
+
   def create
     create! do
       redirect_to keywords_path, notice: 'キーワードを追加しました' and return

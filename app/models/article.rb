@@ -7,6 +7,8 @@ class Article < ActiveRecord::Base
   scope :recent, -> { order('id DESC') }
   scope :success, -> { where("failed_flag != ?", false) }
 
+  scope :active, -> { where(inactive_flag: false) }
+
   YOUTUBE_DEVELOPER_KEY = 'AIzaSyAzoxN3WVjJ-Oa1eu0BontCw-G8W15MyuM'
   YOUTUBE_API_SERVICE_NAME = 'youtube'
   YOUTUBE_API_VERSION = 'v3'
@@ -15,10 +17,8 @@ class Article < ActiveRecord::Base
     def new_post(mode = nil)
       word = Keyword.select_word(mode)
       response = self.search_amazon(word)
-      puts 'search amazon'
-      puts "count = #{response.items.count}"
       if response.items.count == 0
-        Article.create(title: word, body: "ヒット件数が0件でした", asin: nil, author: nil, failed_flag: true, category: nil)
+        Article.create(title: word, body: "ヒット件数が0件でした", asin: nil, author: nil, failed_flag: true, category: nil, target: 'グラビア')
       else 
         completed = false
         response.items.each_with_index do |res, i|
@@ -57,12 +57,12 @@ class Article < ActiveRecord::Base
           # はてなブログに投稿
           self.post_hatena_blog(title, body)
 
-          Article.create(title: title, body: body, asin: asin, author: author, failed_flag: false, category: category)
+          Article.create(title: title, body: body, asin: asin, author: author, failed_flag: false, category: category, target: 'グラビア')
           completed = true
           break
         end
         if completed == false
-          Article.create(title: word, body: "ヒット件数が0件でした", asin: nil, author: nil, failed_flag: true, category: nil)
+          Article.create(title: word, body: "ヒット件数が0件でした", asin: nil, author: nil, failed_flag: true, category: nil, target: 'グラビア')
         end
       end
     end
