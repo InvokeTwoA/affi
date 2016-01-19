@@ -20,6 +20,7 @@ class Article < ActiveRecord::Base
       if response.items.count == 0
         Article.create(title: word, body: "ヒット件数が0件でした", asin: nil, author: nil, failed_flag: true, category: nil)
       else 
+        completed = false
         response.items.each_with_index do |res, i|
           # 商品情報を取得
           asin = res.get('ASIN')
@@ -57,7 +58,11 @@ class Article < ActiveRecord::Base
           self.post_hatena_blog(title, body)
 
           Article.create(title: title, body: body, asin: asin, author: author, failed_flag: false, category: category)
+          completed = true
           break
+        end
+        if completed == false
+          Article.create(title: word, body: "ヒット件数が0件でした", asin: nil, author: nil, failed_flag: true, category: nil)
         end
       end
     end
