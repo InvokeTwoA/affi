@@ -29,7 +29,7 @@ class Article < ActiveRecord::Base
           end
 
           # アダルト商品は除外
-          if res.get('ItemAttributes/IsAdultProduct') == 1
+          if res.get('ItemAttributes/IsAdultProduct') == "1"
             puts "adult product"
             next
           end
