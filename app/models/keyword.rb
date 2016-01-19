@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 class Keyword < ActiveRecord::Base
   scope :recent, -> { order('id DESC') }
+  scope :active, -> { where(inactive_flag: false) }
 
   scope :general, -> { where(word_type: 'general')}
   scope :idol, -> { where(word_type: 'idol')}
