@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 class Keyword < ActiveRecord::Base
   scope :recent, -> { order('id DESC') }
-  scope :active, -> { where.not(inactive_flag: true) }
+  scope :active, -> { where("inactive_flag IS NULL OR inactive_flag = false") }
   scope :inactive, -> { where(inactive_flag: true) }
 
   scope :general, -> { where(word_type: 'general')}
