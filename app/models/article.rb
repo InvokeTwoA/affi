@@ -90,6 +90,7 @@ class Article < ActiveRecord::Base
       res = Amazon::Ecs.item_search(word,
         search_index:   search_index,
         response_group: 'Large',
+        condition: 'all',
         country:        'jp'
       )
       res
