@@ -61,7 +61,7 @@ class Article < ActiveRecord::Base
           break
         end
         if completed == false
-          Article.create(title: word, body: "ヒット件数が0件でした", asin: nil, author: nil, failed_flag: true, category: nil, target: 'グラビア')
+          Article.create(title: word, body: "ヒット件数が0件でした(eachした結果)", asin: nil, author: nil, failed_flag: true, category: nil, target: 'グラビア')
         end
       end
     end
@@ -90,7 +90,7 @@ class Article < ActiveRecord::Base
       res = Amazon::Ecs.item_search(word,
         search_index:   search_index,
         response_group: 'Large',
-        condition: 'all',
+        condition: 'All',
         country:        'jp'
       )
       res
