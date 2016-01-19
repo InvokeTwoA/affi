@@ -13,14 +13,14 @@ class Article < ActiveRecord::Base
   YOUTUBE_API_VERSION = 'v3'
 
   class << self
-    def new_post(mode = nil)
-      word = Keyword.select_word(mode)
+    def new_post(mode = nil, word = nil)
+      word = Keyword.select_word(mode) if word.nil?
       response = self.search_amazon(word)
       if response.items.count == 0
         Article.create(title: word, body: "ヒット件数が0件でした", asin: nil, author: nil, failed_flag: true, category: nil, target: 'グラビア')
       else 
         completed = false
-        response.items.each_with_index do |res, i|
+        response.items.each do |res|
           # 商品情報を取得
           asin = res.get('ASIN')
           if Article.where(asin: asin).any?
@@ -28,6 +28,11 @@ class Article < ActiveRecord::Base
             next
           end
 
+          # アダルト商品は除外
+          if res.get('ItemAttributes/IsAdultProduct') == 1
+            puts "adult product"
+            next
+          end
           # 同じ人の商品を取得
           author = res.get('Author')
           relative_asins = self.get_relative_asins(author, asin)
