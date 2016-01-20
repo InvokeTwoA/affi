@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160120015519) do
+ActiveRecord::Schema.define(version: 20160120052543) do
 
   create_table "animations", force: true do |t|
     t.string   "title"
@@ -25,6 +25,8 @@ ActiveRecord::Schema.define(version: 20160120015519) do
     t.datetime "updated_at"
     t.string   "eng_title"
     t.string   "category"
+    t.string   "onair_youbi"
+    t.integer  "onair_hour"
   end
 
   create_table "articles", force: true do |t|

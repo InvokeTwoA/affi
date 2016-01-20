@@ -34,6 +34,14 @@
         .col-sm-5
           = f.input_field :category, as: :select, collection: ['2015年冬アニメ'], include_blank: false
       .form-group
+        %label.col-sm-2.control-label 更新（曜日）
+        .col-sm-5
+          = f.input_field :onair_youbi, as: :select, collection: ["日", "月", "火", "水", "木", "金", "土"], include_blank: false
+      .form-group
+        %label.col-sm-2.control-label 更新（時間）
+        .col-sm-5
+          = f.text_field :onair_hour, class: 'form-control'
+      .form-group
         %label.col-sm-2.control-label 話数
         .col-sm-5
           = f.text_field :story_no, class: 'form-control'

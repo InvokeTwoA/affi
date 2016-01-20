@@ -42,6 +42,8 @@ class AnimationsController < ApplicationController
       :blog_id,
       :category,
       :description,
+      :onair_youbi,
+      :onair_hour,
     )
   end
 end
