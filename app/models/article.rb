@@ -37,7 +37,7 @@ class Article < ActiveRecord::Base
           return
         end
         tmp_response.items.each do |item|
-          if Article.is_item_ok?(item) == false
+          if Article.is_item_ok?(item) == true
             puts "page = #{page}. get data"
             completed = true
             response = item
@@ -260,6 +260,7 @@ class Article < ActiveRecord::Base
         puts "asin already posted"
         return false
       end
+      puts "this item is ok!"
       true
     end
   end
