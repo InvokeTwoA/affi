@@ -249,10 +249,11 @@ class Article < ActiveRecord::Base
         puts 'false. adult product'
         return false
       end
-      if item.get("LargeImage/URL") == nil
-        puts "image not found"
-        return false
-      end
+      # 画像がない事は意外に多い
+      #if item.get("LargeImage/URL") == nil
+      #  puts "image not found"
+      #  return false
+      #end
       asin = item.get('ASIN')
       if Article.where(asin: asin).any?
         puts "asin already posted"
