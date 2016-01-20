@@ -32,6 +32,10 @@ class Article < ActiveRecord::Base
           keyword.save!
         end
         tmp_response = self.search_amazon(word, page)
+        if tmp_response.items.count == 0 
+          Article.create(title: word, body: "ヒット件数が0件でした(itemsのcountが0)", asin: nil, author: nil, failed_flag: true, category: nil, target: 'グラビア')
+          return
+        end
         tmp_response.items.each do |item|
           if Article.is_item_ok?(item) == false
             puts "page = #{page}. get data"
