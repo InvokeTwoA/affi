@@ -24,8 +24,10 @@ class Article < ActiveRecord::Base
       completed = false
       start_page = keyword.search_page
       (start_page..10).each_with_index do |i|
+        puts "search page=#{i}"
         page = i
         if keyword.search_page < i
+          puts "update page"
           keyword.search_page = i
           keyword.save!
         end
