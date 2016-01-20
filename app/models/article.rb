@@ -45,6 +45,7 @@ class Article < ActiveRecord::Base
           end
           break if completed == true
         end
+        break if completed == true
       end
       # もうデータを取り尽くしていればエラーを出力して処理終了
       if completed == false
