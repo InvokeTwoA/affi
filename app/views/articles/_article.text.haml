@@ -16,10 +16,6 @@ if content.present? && content.length > 100
 - if content.present? && content.length > 2
   * 内容紹介
   = simple_format content
-- if relative_asins.present?
-  * 同じアイドルの商品
-  - relative_asins.each do |relative_asin|
-    [asin:#{ relative_asin }:image]
 - if similar_string != ""
   * 類似の商品
   = similar_string

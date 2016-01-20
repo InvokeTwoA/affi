@@ -39,10 +39,6 @@ class Article < ActiveRecord::Base
       asin = response.get('ASIN')
       image_url = response.get("LargeImage/URL")
 
-      # 同じ人の商品を取得 (Authorが取れてない)
-      # author = response.get('Author')
-      # relative_asins = self.get_relative_asins(author, asin)
-
       # 関連商品
       similar_goods_asins = self.get_similar_goods_asins(response)
 
@@ -52,7 +48,6 @@ class Article < ActiveRecord::Base
         :layout => false,
         :locals => { 
           :res => response, 
-          relative_asins: relative_asins,
           similar_goods_asins: similar_goods_asins 
         }
       )
