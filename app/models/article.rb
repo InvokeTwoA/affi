@@ -14,7 +14,7 @@ class Article < ActiveRecord::Base
 
   class << self
     def new_post(mode = nil, word = nil)
-      if word.nnil?
+      if word.nil?
         keyword = Keyword.select_word(mode) if word.nil?
       else
         keyword = Keyword.find_by_name word
