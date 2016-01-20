@@ -15,67 +15,55 @@ class Article < ActiveRecord::Base
   class << self
     def new_post(mode = nil, word = nil)
       word = Keyword.select_word(mode) if word.nil?
-      response = self.search_amazon(word)
-      if response.items.count == 0
-        Article.create(title: word, body: "ヒット件数が0件でした", asin: nil, author: nil, failed_flag: true, category: nil, target: 'グラビア')
-      else 
-        completed = false
-        response.items.each do |res|
-          # 商品情報を取得
-          asin = res.get('ASIN')
-          if Article.where(asin: asin).any?
-            puts "asin #{asin} already exist"
-            next
-          end
-
-          # アダルト商品は除外
-          if res.get('ItemAttributes/IsAdultProduct') == "1"
-            puts "adult product"
-            next
-          end
-
-          # 画像URLが取得できない場合も除外
-          if res.get("LargeImage/URL") == nil
-            puts "can't get image url"
-            next
-          end
-          image_url = res.get("LargeImage/URL")
-
-          # 同じ人の商品を取得
-          author = res.get('Author')
-          relative_asins = self.get_relative_asins(author, asin)
-
-          # 関連商品
-          similar_goods_asins = self.get_similar_goods_asins(res)
-
-          # 記事作成
-          body = ApplicationController.new.render_to_string(
-            :template => 'articles/_article',
-            :layout => false,
-            :locals => { 
-              :res => res, 
-              relative_asins: relative_asins,
-              similar_goods_asins: similar_goods_asins 
-            }
-          )
-          # 記事タイトル(特定アイドル名だったらカテゴリにする)
-          title = res.get('ItemAttributes/Title')
-          category = nil
-          if Keyword.idol.pluck(:name).include? word
-            title = "[#{word}]#{title}"
-            category = word
-          end
-
-          # はてなブログに投稿
-          self.post_hatena_blog(title, body)
-          Article.create(title: title, body: body, asin: asin, author: author, failed_flag: false, category: category, target: 'グラビア', image_url: image_url)
-          completed = true
+      response = nil
+      completed = false
+      (1..10).each_with_index do |i|
+        page = i
+        tmp_response = self.search_amazon(word, page)
+        if Article.is_response_ok?(tmp_response) == false
+          completed = false
+          response = tmp_response
           break
         end
-        if completed == false
-          Article.create(title: word, body: "ヒット件数が0件でした(eachした結果)", asin: nil, author: nil, failed_flag: true, category: nil, target: 'グラビア')
-        end
       end
+      # もうデータを取り尽くしていればエラーを出力して処理終了
+      if completed == false
+        Article.create(title: word, body: "ヒット件数が0件でした(eachした結果)", asin: nil, author: nil, failed_flag: true, category: nil, target: 'グラビア')
+        return
+      end
+
+      author = response.get('Author')
+      asin = response.get('ASIN')
+      image_url = response.get("LargeImage/URL")
+
+      # 同じ人の商品を取得 (Authorが取れてない)
+      # author = response.get('Author')
+      # relative_asins = self.get_relative_asins(author, asin)
+
+      # 関連商品
+      similar_goods_asins = self.get_similar_goods_asins(response)
+
+      # 記事作成
+      body = ApplicationController.new.render_to_string(
+        :template => 'articles/_article',
+        :layout => false,
+        :locals => { 
+          :res => response, 
+          relative_asins: relative_asins,
+          similar_goods_asins: similar_goods_asins 
+        }
+      )
+      # 記事タイトル(特定アイドル名だったらカテゴリにする)
+      title = response.get('ItemAttributes/Title')
+      category = nil
+      if Keyword.idol.pluck(:name).include? word
+        title = "[#{word}]#{title}"
+        category = word
+      end
+
+      # はてなブログに投稿
+      self.post_hatena_blog(title, body)
+      Article.create(title: title, body: body, asin: asin, author: author, failed_flag: false, category: category, target: 'グラビア', image_url: image_url)
     end
 
     def post_hatena_blog(title, body)
@@ -94,7 +82,7 @@ class Article < ActiveRecord::Base
       client.create_entry(url, entry);
     end
 
-    def search_amazon(word)
+    def search_amazon(word, page = 1)
       #search_index = ['Books', 'DVD'].sample
       search_index = 'Books'
       #Amazon::Ecs.debug = true
@@ -102,7 +90,8 @@ class Article < ActiveRecord::Base
         search_index:   search_index,
         response_group: 'Large',
         condition: 'All',
-        country:        'jp'
+        country:        'jp',
+        itemPage: page,
       )
       res
     end
@@ -238,6 +227,16 @@ class Article < ActiveRecord::Base
       )
       youtube = client.discovered_api(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION)
       return client, youtube
+    end
+
+    # amazon 検索結果を検証
+    def is_response_ok?(res)
+      return false if res.items.count == 0
+      return false if res.get('ItemAttributes/IsAdultProduct') == "1"
+      return false if res.get("LargeImage/URL") == nil
+      asin = res.get('ASIN')
+      return false if Article.where(asin: asin).any?
+      true
     end
   end
 end
