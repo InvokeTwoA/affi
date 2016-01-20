@@ -21,7 +21,8 @@ class Article < ActiveRecord::Base
         page = i
         tmp_response = self.search_amazon(word, page)
         if Article.is_response_ok?(tmp_response) == false
-          completed = false
+          puts "page = #{page}. get data"
+          completed = true
           response = tmp_response
           break
         end
@@ -31,7 +32,6 @@ class Article < ActiveRecord::Base
         Article.create(title: word, body: "ヒット件数が0件でした(eachした結果)", asin: nil, author: nil, failed_flag: true, category: nil, target: 'グラビア')
         return
       end
-
       author = response.get('Author')
       asin = response.get('ASIN')
       image_url = response.get("LargeImage/URL")
