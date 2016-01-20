@@ -10,9 +10,11 @@ class Keyword < ActiveRecord::Base
   class << self
     def select_word(mode)
       if mode == "idol"
-        word = idol.active.pluck(:name).sample
+        id = idol.active.pluck(:id).sample
+        keyword = Keyword.find id
       else
-        word = recent.active.pluck(:name).sample
+        id = recent.active.pluck(:id).sample
+        keyword = Keyword.find id
       end
     end
   end

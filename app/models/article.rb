@@ -14,11 +14,17 @@ class Article < ActiveRecord::Base
 
   class << self
     def new_post(mode = nil, word = nil)
-      word = Keyword.select_word(mode) if word.nil?
+      keyword = Keyword.select_word(mode) if word.nil?
+      word = keyword.name
       response = nil
       completed = false
-      (1..10).each_with_index do |i|
+      start_page = keyword.search_page
+      (start_page..10).each_with_index do |i|
         page = i
+        if keyword.search_page < i
+          keyword.search_page = i
+          keyword.save!
+        end
         tmp_response = self.search_amazon(word, page)
         tmp_response.items.each do |item|
           if Article.is_item_ok?(item) == false

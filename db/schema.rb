@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160120052543) do
+ActiveRecord::Schema.define(version: 20160120080902) do
 
   create_table "animations", force: true do |t|
     t.string   "title"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20160120052543) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "inactive_flag"
+    t.integer  "search_page",    default: 1
   end
 
 end
