@@ -24,6 +24,7 @@
         %td.center= keyword.inactive_flag == true ? '無効' : '有効'
         %td.center= keyword.search_page
         %td.center
+          = link_to '編集', edit_keyword_path(keyword), class: 'btn btn-info'
           = link_to '削除', keyword_path(keyword), method: :delete, data: { confirm: "#{ keyword.name }を削除します。よろしいですか？" }, class: 'btn btn-danger'
           - if keyword.inactive_flag?
             = link_to '有効にする', to_active_keyword_path(keyword), method: :put, class: 'btn btn-info'

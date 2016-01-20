@@ -19,6 +19,12 @@ class KeywordsController < ApplicationController
     end
   end
 
+  def update
+    update! do
+      redirect_to keywords_path, notice: 'キーワードを編集しました' and return
+    end
+  end
+
   def collection
     @cond = params[:q] || {}
     @q = end_of_association_chain.search(@cond)
