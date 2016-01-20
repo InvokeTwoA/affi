@@ -89,9 +89,8 @@ class Article < ActiveRecord::Base
 
     def search_amazon(word)
       #search_index = ['Books', 'DVD'].sample
-      #search_index = 'DVD'
       search_index = 'Books'
-      Amazon::Ecs.debug = true
+      #Amazon::Ecs.debug = true
       res = Amazon::Ecs.item_search(word,
         search_index:   search_index,
         response_group: 'Large',
@@ -99,6 +98,12 @@ class Article < ActiveRecord::Base
         country:        'jp'
       )
       res
+    end
+    def lookup_amazon(asin)
+      #search_index = ['Books', 'DVD'].sample
+      search_index = 'Books'
+      #Amazon::Ecs.debug = true
+      Amazon::Ecs.lookup(asin)
     end
 
     def test(mode=nil)
