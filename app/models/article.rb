@@ -241,10 +241,19 @@ class Article < ActiveRecord::Base
 
     # amazon 検索結果を検証
     def is_item_ok?(item)
-      return false if item.get('ItemAttributes/IsAdultProduct') == "1"
-      return false if item.get("LargeImage/URL") == nil
+      if item.get('ItemAttributes/IsAdultProduct') == "1"
+        puts 'false. adult product'
+        return false
+      end
+      if item.get("LargeImage/URL") == nil
+        puts "image not found"
+        return false
+      end
       asin = item.get('ASIN')
-      return false if Article.where(asin: asin).any?
+      if Article.where(asin: asin).any?
+        puts "asin already posted"
+        return false
+      end
       true
     end
   end
