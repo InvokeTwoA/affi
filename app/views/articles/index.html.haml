@@ -15,10 +15,10 @@
     %tr
       %th.center ID
       %th.center 投稿先のサイト
+      %th.center カテゴリ
       %th.center タイトル
       %th.center 本文
       %th.center ASIN
-      %th.center カテゴリ
       /%th.center AUTHOR
       %th.center 作成日
       %th.center アクション
@@ -26,10 +26,14 @@
       %tr
         %td.center= article.id
         %td.center= article.target
-        %td.center{ class: ("red" if article.failed_flag?) }= article.title
+        %td.center{ class: ("red" if article.failed_flag?) }
+          - if article.failed_flag?
+            = article.title
+          - else
+            = link_to article.title, article_path(article)
+        %td.center= article.category
         %td.center= simple_format article.body.truncate(50) if article.body.present?
         %td.center= article.asin
-        %td.center= article.category
         /%td.center= article.author
         %td.center= l article.created_at
         %td.center= link_to '削除', article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger'

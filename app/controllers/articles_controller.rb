@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  #inherit_resources
+  inherit_resources
 
   def index
     @articles = Article.recent.page(params[:page]).per(30).uniq

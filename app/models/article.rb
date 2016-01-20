@@ -33,6 +33,14 @@ class Article < ActiveRecord::Base
             puts "adult product"
             next
           end
+
+          # 画像URLが取得できない場合も除外
+          if res.get("LargeImage/URL") == nil
+            puts "can't get image url"
+            next
+          end
+          image_url = res.get("LargeImage/URL")
+
           # 同じ人の商品を取得
           author = res.get('Author')
           relative_asins = self.get_relative_asins(author, asin)
@@ -60,8 +68,7 @@ class Article < ActiveRecord::Base
 
           # はてなブログに投稿
           self.post_hatena_blog(title, body)
-
-          Article.create(title: title, body: body, asin: asin, author: author, failed_flag: false, category: category, target: 'グラビア')
+          Article.create(title: title, body: body, asin: asin, author: author, failed_flag: false, category: category, target: 'グラビア', image_url: image_url)
           completed = true
           break
         end
@@ -98,14 +105,6 @@ class Article < ActiveRecord::Base
         country:        'jp'
       )
       res
-    end
-    def lookup_amazon(asin)
-      result = Amazon::AWS::Search::Request.new.search(
-        Amazon::AWS::ItemLookup.new('ASIN', 'ItemId'=>asin),
-        Amazon::AWS::ResponseGroup.new('Medium')
-      )
-      item = result.item_lookup_response.items.item
-      return item
     end
 
     def test(mode=nil)

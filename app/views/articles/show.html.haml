@@ -1,0 +1,21 @@
+- article = resource
+.main
+  %table.table.table-striped.table-hover
+    %tr
+      %td.center 投稿先のサイト
+      %td.center= article.target 
+    %tr
+      %td.center タイトル
+      %td.center= article.title
+    %tr
+      %td.center カテゴリ
+      %td.center= article.category
+    %tr
+      %td.center 画像URL
+      %td.centert= image_tag article.image_url
+    %tr
+      %td.center 本文
+      %td.centert= simple_format article.body
+    %tr
+      %td.center アクション
+      %td.center= link_to '削除', article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger'

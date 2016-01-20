@@ -49,3 +49,5 @@ gem 'amazon-ecs'
 # youtube
 gem 'google-api-client', '~> 0.7.1'
 gem 'trollop'
+
+gem 'jquery-colorbox-rails' # ポップアップ表示用
