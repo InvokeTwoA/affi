@@ -100,10 +100,12 @@ class Article < ActiveRecord::Base
       res
     end
     def lookup_amazon(asin)
-      #search_index = ['Books', 'DVD'].sample
-      search_index = 'Books'
-      #Amazon::Ecs.debug = true
-      Amazon::Ecs.lookup(asin)
+      result = Amazon::AWS::Search::Request.new.search(
+        Amazon::AWS::ItemLookup.new('ASIN', 'ItemId'=>asin),
+        Amazon::AWS::ResponseGroup.new('Medium')
+      )
+      item = result.item_lookup_response.items.item
+      return item
     end
 
     def test(mode=nil)
