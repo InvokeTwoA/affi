@@ -9,7 +9,7 @@ namespace :articles do
     youbi = wdays[Time.now.wday]
     hour =  Time.now.hour
     Animation.recent.each do |animation|
-      next unless youbi == animation.onair_wday
+      next unless youbi == animation.onair_youbi
       next unless hour == animation.onair_hour
       animation.story_no += 1
       animation.save!
