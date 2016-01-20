@@ -20,11 +20,14 @@ class Article < ActiveRecord::Base
       (1..10).each_with_index do |i|
         page = i
         tmp_response = self.search_amazon(word, page)
-        if Article.is_response_ok?(tmp_response) == false
-          puts "page = #{page}. get data"
-          completed = true
-          response = tmp_response
-          break
+        tmp_response.items.each do |item|
+          if Article.is_item_ok?(item) == false
+            puts "page = #{page}. get data"
+            completed = true
+            response = item
+            break
+          end
+          break if completed == true
         end
       end
       # もうデータを取り尽くしていればエラーを出力して処理終了
@@ -230,11 +233,10 @@ class Article < ActiveRecord::Base
     end
 
     # amazon 検索結果を検証
-    def is_response_ok?(res)
-      return false if res.items.count == 0
-      return false if res.get('ItemAttributes/IsAdultProduct') == "1"
-      return false if res.get("LargeImage/URL") == nil
-      asin = res.get('ASIN')
+    def is_item_ok?(item)
+      return false if item.get('ItemAttributes/IsAdultProduct') == "1"
+      return false if item.get("LargeImage/URL") == nil
+      asin = item.get('ASIN')
       return false if Article.where(asin: asin).any?
       true
     end
