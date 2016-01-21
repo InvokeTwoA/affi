@@ -12,6 +12,19 @@ class Article < ActiveRecord::Base
   YOUTUBE_API_SERVICE_NAME = 'youtube'
   YOUTUBE_API_VERSION = 'v3'
 
+  # はてなブログから記事削除
+  def rm_hatena_blog
+    url = "https://blog.hatena.ne.jp/siki_kawa/kawa-e.hateblo.jp/atom/entry/#{self.blog_id}"
+    user = 'siki_kawa'
+    api_key = 'rfu388pqwx'
+    auth = Atompub::Auth::Wsse.new(
+      username: user,
+      password: api_key
+    )
+    client = Atompub::Client.new(auth: auth)
+    client.delte_entry(url);
+  end
+
   class << self
     def new_post(mode = nil, word = nil)
       if word.nil?
@@ -77,10 +90,11 @@ class Article < ActiveRecord::Base
       end
 
       # はてなブログに投稿
-      self.post_hatena_blog(title, body)
-      Article.create(title: title, body: body, asin: asin, author: author, failed_flag: false, category: category, target: 'グラビア', image_url: image_url)
+      blog_id = self.post_hatena_blog(title, body)
+      Article.create(title: title, body: body, asin: asin, author: author, failed_flag: false, category: category, target: 'グラビア', image_url: image_url, blog_id: blog_id)
     end
 
+    #  はてなブログに記事投稿
     def post_hatena_blog(title, body)
       url = 'https://blog.hatena.ne.jp/siki_kawa/kawa-e.hateblo.jp/atom/entry'
       user = 'siki_kawa'
@@ -94,7 +108,8 @@ class Article < ActiveRecord::Base
         title: title.encode('BINARY', 'BINARY'),
         content: body.encode('BINARY', 'BINARY')
        )
-      client.create_entry(url, entry);
+      res = client.create_entry(url, entry);
+      return res.split("/").last
     end
 
     def search_amazon(word, page = 1)

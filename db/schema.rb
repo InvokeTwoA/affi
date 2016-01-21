@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160120080902) do
+ActiveRecord::Schema.define(version: 20160121083201) do
 
   create_table "animations", force: true do |t|
     t.string   "title"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20160120080902) do
     t.string   "category"
     t.string   "target"
     t.string   "image_url"
+    t.string   "blog_id"
   end
 
   add_index "articles", ["category"], name: "index_articles_on_category", using: :btree

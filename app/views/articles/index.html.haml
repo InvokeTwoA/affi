@@ -21,6 +21,7 @@
       %th.center ASIN
       /%th.center AUTHOR
       %th.center 作成日
+      %th.center 記事削除
       %th.center アクション
     - @articles.each do |article|
       %tr
@@ -36,4 +37,5 @@
         %td.center= article.asin
         /%td.center= article.author
         %td.center= l article.created_at
-        %td.center= link_to '削除', article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger'
+        %td.center= link_to '記事削除', rm_hatena_article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger'
+        %td.center= link_to 'データ削除', article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger'

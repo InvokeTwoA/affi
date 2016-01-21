@@ -18,8 +18,16 @@ class ArticlesController < ApplicationController
   end
 
   def destroy
-    Article.destroy(params[:id])
-    redirect_to :back, notice: '削除完了しました'
+    destroy! do
+      redirect_to :back, notice: '削除完了しました' and return
+    end
+  rescue => e
+    redirect_to :back, flash: { error: "削除に失敗しました。\n #{ e.message }" }
+  end
+
+  def rm_hatena
+    resource.rm_hatena_blog
+    redirect_to :back, notice: 'はてなの記事を削除しました'
   rescue => e
     redirect_to :back, flash: { error: "削除に失敗しました。\n #{ e.message }" }
   end
