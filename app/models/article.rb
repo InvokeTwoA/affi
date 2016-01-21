@@ -23,6 +23,8 @@ class Article < ActiveRecord::Base
     )
     client = Atompub::Client.new(auth: auth)
     client.delete_entry(url);
+    self.deleted_at = Time.now
+    self.save!
   end
 
   class << self
