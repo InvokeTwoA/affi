@@ -22,7 +22,7 @@ class Article < ActiveRecord::Base
       password: api_key
     )
     client = Atompub::Client.new(auth: auth)
-    client.delte_entry(url);
+    client.delete_entry(url);
   end
 
   class << self
