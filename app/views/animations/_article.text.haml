@@ -4,11 +4,12 @@
 [:contents]
 * 内容紹介
 = resource.description
-* PV
-[#{resource.pv_url}:embed:cite]
-* 公式URL
-[#{resource.public_url}:embed:cite]
-
+- if resource.ptv_url.present?
+  * PV
+  [#{resource.pv_url}:embed:cite]
+- if resource.public_url.present?
+  * 公式URL
+  [#{resource.public_url}:embed:cite]
 * 無料動画
 |*話数|*ひまわり動画|*anitube|*ニコニコ動画|*say move|*youtube|
 - (1..resource.story_no).each_with_index do |i|
