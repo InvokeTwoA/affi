@@ -38,6 +38,8 @@ class Article < ActiveRecord::Base
       response = nil
       completed = false
       start_page = keyword.search_page
+
+      article = Article.create(title: word, body: "これから入稿します", failed_flag: true, target: 'グラビア')
       (start_page..400).each_with_index do |i|
         puts "search page=#{i}"
         page = i
@@ -48,7 +50,7 @@ class Article < ActiveRecord::Base
         end
         tmp_response = self.search_amazon(word, page)
         if tmp_response.items.count == 0 
-          Article.create(title: word, body: "ヒット件数が0件でした(itemsのcountが0)", asin: nil, author: nil, failed_flag: true, category: nil, target: 'グラビア')
+          article.update(body: "ヒット件数が0件でした(itemsのcountが0)")
           return
         end
         tmp_response.items.each do |item|
@@ -64,7 +66,7 @@ class Article < ActiveRecord::Base
       end
       # もうデータを取り尽くしていればエラーを出力して処理終了
       if completed == false
-        Article.create(title: word, body: "ヒット件数が0件でした(eachした結果)", asin: nil, author: nil, failed_flag: true, category: nil, target: 'グラビア')
+        article.update(body: "ヒット件数が0件でした(eachした結果)")
         return
       end
       author = response.get('Author')
@@ -93,7 +95,7 @@ class Article < ActiveRecord::Base
 
       # はてなブログに投稿
       blog_id = self.post_hatena_blog(title, body)
-      Article.create(title: title, body: body, asin: asin, author: author, failed_flag: false, category: category, target: 'グラビア', image_url: image_url, blog_id: blog_id)
+      article.update(title: title, body: body, asin: asin, author: author, failed_flag: false, category: category, image_url: image_url, blog_id: blog_id)
     end
 
     #  はてなブログに記事投稿
