@@ -44,6 +44,7 @@ class ArticlesController < ApplicationController
     redirect_to :back, flash: { error: "削除に失敗しました。\n #{ e.message }" }
   end
 
+  # 記事を公開せず deleted_at を設定する
   def rm_blog
     resource.rm_blog
     redirect_to :back, notice: 'delted_at を設定しました'
