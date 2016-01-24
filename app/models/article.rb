@@ -27,6 +27,12 @@ class Article < ActiveRecord::Base
     self.save!
   end
 
+  # 本番にあがってない記事を削除
+  def rm_blog
+    self.deleted_at = Time.now
+    self.save!
+  end
+
   def upload_hatena
     blog_id = Article.post_hatena_blog(self.title, self.body)
     self.update(blog_id: blog_id, staging_flag: false)

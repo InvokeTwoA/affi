@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     member do
       post :post_hatena
       delete :rm_hatena
+      delete :rm_blog
     end
   end
   resources :keywords do

@@ -44,4 +44,11 @@ class ArticlesController < ApplicationController
     redirect_to :back, flash: { error: "削除に失敗しました。\n #{ e.message }" }
   end
 
+  def rm_blog
+    resource.rm_blog
+    redirect_to :back, notice: 'delted_at を設定しました'
+  rescue => e
+    redirect_to :back, flash: { error: "削除に失敗しました。\n #{ e.message }" }
+  end
+
 end
