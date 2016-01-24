@@ -12,9 +12,9 @@ class ArticlesController < ApplicationController
   
   def create
     if params[:word].present?
-      Article.new_post(nil, params[:word])
+      Article.new_post(nil, params[:word], false)
     else
-      Article.new_post(params[:mode])
+      Article.new_post(params[:mode], nil, false)
     end
     redirect_to :back, notice: '投稿完了しました'
   rescue => e
