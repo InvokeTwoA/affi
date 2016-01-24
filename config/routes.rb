@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   root to: "articles#index"
 
   resources :articles do
+    collection do
+      get :all_articles
+    end
     member do
+      post :post_hatena
       delete :rm_hatena
     end
   end

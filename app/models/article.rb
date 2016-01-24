@@ -6,7 +6,7 @@ require 'trollop'
 class Article < ActiveRecord::Base
   scope :recent, -> { order('id DESC') }
   scope :success, -> { where("failed_flag != ?", false) }
-
+  scope :active, -> { where("deleted_at = ? OR deleted_at IS NULL", false) }
 
   YOUTUBE_DEVELOPER_KEY = 'AIzaSyAzoxN3WVjJ-Oa1eu0BontCw-G8W15MyuM'
   YOUTUBE_API_SERVICE_NAME = 'youtube'
@@ -27,8 +27,13 @@ class Article < ActiveRecord::Base
     self.save!
   end
 
+  def upload_hatena
+    blog_id = self.post_hatena_blog(self.title, self.body)
+    self.update(blog_id: blog_id, staging_flag: false)
+  end
+
   class << self
-    def new_post(mode = nil, word = nil)
+    def new_post(mode = nil, word = nil, post = true)
       if word.nil?
         keyword = Keyword.select_word(mode) if word.nil?
       else
@@ -41,10 +46,8 @@ class Article < ActiveRecord::Base
 
       article = Article.create(title: word, body: "これから入稿します", failed_flag: true, target: 'グラビア')
       (start_page..400).each_with_index do |i|
-        puts "search page=#{i}"
         page = i
         if keyword.search_page < i
-          puts "update page"
           keyword.search_page = i
           keyword.save!
         end
@@ -69,7 +72,6 @@ class Article < ActiveRecord::Base
         article.update(body: "ヒット件数が0件でした(eachした結果)")
         return
       end
-      author = response.get('Author')
       asin = response.get('ASIN')
       image_url = response.get("LargeImage/URL")
 
@@ -94,8 +96,12 @@ class Article < ActiveRecord::Base
       end
 
       # はてなブログに投稿
-      blog_id = self.post_hatena_blog(title, body)
-      article.update(title: title, body: body, asin: asin, author: author, failed_flag: false, category: category, image_url: image_url, blog_id: blog_id)
+      if post == true
+        blog_id = self.post_hatena_blog(title, body)
+        article.update(title: title, body: body, asin: asin, failed_flag: false, category: category, image_url: image_url, blog_id: blog_id)
+      else
+        article.update(title: title, body: body, asin: asin, failed_flag: false, category: category, image_url: image_url, staging_flag: true)
+      end
     end
 
     #  はてなブログに記事投稿
