@@ -5,7 +5,6 @@
 .pull-right
   = link_to '記事を投稿する', articles_path, method: :post, class: 'btn btn-success'
   = link_to '記事を投稿する(特定アイドル)', articles_path(mode: 'idol'), method: :post, class: 'btn btn-success'
-
   = form_for Article.new do
     = select_tag 'word', options_for_select(Keyword.active.pluck(:name))
     = submit_tag 'キーワード指定投稿'

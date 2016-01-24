@@ -28,7 +28,7 @@ class Article < ActiveRecord::Base
   end
 
   def upload_hatena
-    blog_id = self.post_hatena_blog(self.title, self.body)
+    blog_id = Article.post_hatena_blog(self.title, self.body)
     self.update(blog_id: blog_id, staging_flag: false)
   end
 

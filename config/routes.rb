@@ -12,6 +12,9 @@ Rails.application.routes.draw do
     end
   end
   resources :keywords do
+    collection do
+      get :inactive
+    end
     member do
       put :to_active
       put :to_inactive

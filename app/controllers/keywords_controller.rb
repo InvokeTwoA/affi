@@ -1,6 +1,11 @@
 class KeywordsController < ApplicationController
   inherit_resources
 
+  def inactive
+    @keywords = Keyword.inactive.recent.page(params[:page]).per(30).uniq
+    render :index
+  end
+
   def to_active
     resource.inactive_flag = false
     resource.save!
@@ -28,7 +33,7 @@ class KeywordsController < ApplicationController
   def collection
     @cond = params[:q] || {}
     @q = end_of_association_chain.search(@cond)
-    @keywords = Keyword.recent.page(params[:page]).per(30).uniq
+    @keywords = Keyword.recent.active.page(params[:page]).per(30).uniq
   end
 
   def keyword_params
