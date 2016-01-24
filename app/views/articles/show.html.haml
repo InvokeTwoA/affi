@@ -18,4 +18,5 @@
       %td.centert= simple_format article.body
     %tr
       %td.center アクション
-      %td.center= link_to '削除', article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger'
+      %td.center= link_to '記事削除', rm_hatena_article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger'
+      /%td.center= link_to '削除', article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger'
