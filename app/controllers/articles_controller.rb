@@ -39,7 +39,7 @@ class ArticlesController < ApplicationController
 
   def rm_hatena
     resource.rm_hatena_blog
-    redirect_to :back, notice: 'はてなの記事を削除しました'
+    redirect_to articles_path, notice: 'はてなの記事を削除しました'
   rescue => e
     redirect_to :back, flash: { error: "削除に失敗しました。\n #{ e.message }" }
   end
@@ -47,7 +47,7 @@ class ArticlesController < ApplicationController
   # 記事を公開せず deleted_at を設定する
   def rm_blog
     resource.rm_blog
-    redirect_to :back, notice: 'delted_at を設定しました'
+    redirect_to articles_path, notice: 'delted_at を設定しました'
   rescue => e
     redirect_to :back, flash: { error: "削除に失敗しました。\n #{ e.message }" }
   end
