@@ -6,7 +6,7 @@ require 'trollop'
 class Article < ActiveRecord::Base
   scope :recent, -> { order('id DESC') }
   scope :success, -> { where("failed_flag != ?", false) }
-  scope :active, -> { where("deleted_at != ?", true) }
+  scope :active, -> { where("deleted_at IS NULL") }
 
   YOUTUBE_DEVELOPER_KEY = 'AIzaSyAzoxN3WVjJ-Oa1eu0BontCw-G8W15MyuM'
   YOUTUBE_API_SERVICE_NAME = 'youtube'
