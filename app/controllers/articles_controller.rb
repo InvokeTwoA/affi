@@ -12,13 +12,12 @@ class ArticlesController < ApplicationController
   
   def create
     if params[:word].present?
-      Article.new_post(nil, params[:word], false)
+      article = Article.new_post(nil, params[:word], false)
     else
-      Article.new_post(params[:mode], nil, false)
+      article = Article.new_post(params[:mode], nil, false)
     end
-    redirect_to articles_path, notice: '投稿完了しました'
+    redirect_to article_path(article), notice: '投稿完了しました'
   rescue => e
-    Article.create(title: '投稿失敗', body: e.message, failed_flag: true)
     redirect_to :back, flash: { error: "記事投稿に失敗しました。\n #{ e.message }" }
   end
 

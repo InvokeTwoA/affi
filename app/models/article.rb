@@ -102,6 +102,7 @@ class Article < ActiveRecord::Base
       else
         article.update(title: title, body: body, asin: asin, failed_flag: false, category: category, image_url: image_url, staging_flag: true)
       end
+      article
     end
 
     #  はてなブログに記事投稿
