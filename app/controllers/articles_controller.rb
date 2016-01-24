@@ -23,7 +23,7 @@ class ArticlesController < ApplicationController
 
   def post_hatena
     resource.upload_hatena
-    redirect_to :back, notice: '投稿完了しました'
+    redirect_to articles_path, notice: '投稿完了しました'
   rescue => e
     redirect_to :back, flash: { error: "記事投稿に失敗しました。\n #{ e.message }" }
   end
