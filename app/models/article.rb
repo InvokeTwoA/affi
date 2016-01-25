@@ -10,9 +10,9 @@ class Article < ActiveRecord::Base
 
   # はてなブログから記事削除
   def rm_hatena_blog
-    url = "#{SecretKeyValue.return_value('hatena_idol_url')}/#{self.blog_id}"
-    user = SecretKeyValue.return_value('hatena_idol_user')
-    api_key = SecretKeyValue.return_value('hatena_idol_key')
+    url = "#{SecretsKeyValue.return_value('hatena_idol_url')}/#{self.blog_id}"
+    user = SecretsKeyValue.return_value('hatena_idol_user')
+    api_key = SecretsKeyValue.return_value('hatena_idol_key')
     Hatena.delete_blog(user, api_key, url)
     self.deleted_at = Time.now
     self.save!
@@ -103,9 +103,9 @@ class Article < ActiveRecord::Base
 
     #  はてなブログに記事投稿
     def post_hatena_blog(title, body)
-      url = "#{SecretKeyValue.return_value('hatena_idol_url')}"
-      user = SecretKeyValue.return_value('hatena_idol_user')
-      api_key = SecretKeyValue.return_value('hatena_idol_key')
+      url = "#{SecretsKeyValue.return_value('hatena_idol_url')}"
+      user = SecretsKeyValue.return_value('hatena_idol_user')
+      api_key = SecretsKeyValue.return_value('hatena_idol_key')
       blog_id = Hatena.post_blog(user, api_key, url, title, body)
       return blog_id
     end
