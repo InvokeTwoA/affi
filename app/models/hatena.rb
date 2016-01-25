@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-# -*- encoding: utf-8 -*-
 require 'atomutil'
 class Hatena < ActiveRecord::Base
   class << self

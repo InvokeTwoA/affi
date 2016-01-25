@@ -1,5 +1,3 @@
-#!/usr/local/bin/ruby
-# -*- encoding: utf-8 -*-
 require 'atomutil'
 class Article < ActiveRecord::Base
   scope :recent, -> { order('id DESC') }
