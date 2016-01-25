@@ -106,7 +106,6 @@ class Article < ActiveRecord::Base
       url = "#{SecretsKeyValue.return_value('hatena_idol_url')}"
       user = SecretsKeyValue.return_value('hatena_idol_user')
       api_key = SecretsKeyValue.return_value('hatena_idol_key')
-      Rails.logger.info "title=#{title}, body=#{body}"
       blog_id = Hatena.post_blog(user, api_key, url, title, body)
       return blog_id
     end

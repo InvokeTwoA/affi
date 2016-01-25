@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class Hatena < ActiveRecord::Base
   class << self
     # 投稿に成功した場合はブログIDを返す
@@ -7,7 +8,6 @@ class Hatena < ActiveRecord::Base
         password: api_key
       )
       client = Atompub::Client.new(auth: auth)
-      Rails.logger.info "title=#{title}, body=#{body}"
       entry = Atom::Entry.new(
         title: title.encode('BINARY', 'BINARY'),
         content: body.encode('BINARY', 'BINARY')
