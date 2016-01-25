@@ -10,8 +10,8 @@ class Hatena < ActiveRecord::Base
       )
       client = Atompub::Client.new(auth: auth)
       entry = Atom::Entry.new(
-        title: title.encode('UTF-8', 'BINARY'),
-        content: body.encode('UTF-8', 'BINARY')
+        title:  title.encode('BINARY'),
+        content: body.encode('BINARY')
        )
       res = client.create_entry(url, entry);
       return res.split("/").last
