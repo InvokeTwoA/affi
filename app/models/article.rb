@@ -99,17 +99,17 @@ class Article < ActiveRecord::Base
 
     #  はてなブログに記事投稿
     def post_hatena_blog(title, body)
-      url = "#{SecretsKeyValue.return_value('hatena_idol_url')}"
-      user = SecretsKeyValue.return_value('hatena_idol_user')
+      url     = SecretsKeyValue.return_value('hatena_idol_url')
+      user    = SecretsKeyValue.return_value('hatena_idol_user')
       api_key = SecretsKeyValue.return_value('hatena_idol_key')
-      auth = Atompub::Auth::Wsse.new(
+      auth    = Atompub::Auth::Wsse.new(
         username: user,
         password: api_key
       )
       client = Atompub::Client.new(auth: auth)
       entry = Atom::Entry.new(
-        title: "title",
-        content: "body"
+        title: "title".encode('BINARY', 'BINARY'),
+        content: "body".encode('BINARY', 'BINARY')
       )
       res = client.create_entry(url, entry)
       return res.split("/").last
