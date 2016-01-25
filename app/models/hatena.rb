@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+require 'atomutil'
 class Hatena < ActiveRecord::Base
   class << self
     # 投稿に成功した場合はブログIDを返す
