@@ -13,8 +13,8 @@ class Hatena < ActiveRecord::Base
       #)
       Rails.logger.info 'lets entry'
       entry = Atom::Entry.new(
-        title: "[t]itle".encode('BINARY', 'BINARY'),
-        content: "[]body".encode('BINARY', 'BINARY')
+        title: "[t]itle",
+        content: "[]body"
       )
       Rails.logger.info 'entry comp'
       client = Atompub::Client.new(auth: auth)
