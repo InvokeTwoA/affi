@@ -7,19 +7,12 @@ class Hatena < ActiveRecord::Base
         username: user,
         password: api_key
       )
-      #entry = Atom::Entry.new(
-      #  title: title.encode('BINARY', 'BINARY'),
-      #  content: body.encode('BINARY', 'BINARY')
-      #)
-      Rails.logger.info 'lets entry'
-      entry = Atom::Entry.new(
-        title: "[t]itle",
-        content: "[]body"
-      )
-      Rails.logger.info 'entry comp'
       client = Atompub::Client.new(auth: auth)
+      entry = Atom::Entry.new(
+        title: title.encode('BINARY', 'BINARY'),
+        content: body.encode('BINARY', 'BINARY')
+      )
       res = client.create_entry(url, entry);
-      Rails.logger.info 'create entry comp'
       return res.split("/").last
     end
 
