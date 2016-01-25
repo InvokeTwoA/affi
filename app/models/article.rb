@@ -1,9 +1,6 @@
 #!/usr/local/bin/ruby
 # -*- encoding: utf-8 -*-
 require 'atomutil'
-require 'rubygems'
-require 'google/api_client'
-require 'trollop'
 class Article < ActiveRecord::Base
   scope :recent, -> { order('id DESC') }
   scope :success, -> { where("failed_flag != ?", false) }

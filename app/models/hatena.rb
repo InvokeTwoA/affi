@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+# -*- encoding: utf-8 -*-
 require 'atomutil'
 class Hatena < ActiveRecord::Base
   class << self
@@ -7,14 +9,14 @@ class Hatena < ActiveRecord::Base
         username: user,
         password: api_key
       )
-      Rails.logger.info "t=#{title.encoding.to_s}"
-      Rails.logger.info "b=#{body.encoding.to_s}"
 
-      #title: title.force_encoding("BINARY"),
-      #content: body.force_encoding("BINARY")
+      #entry = Atom::Entry.new(
+      #  title: title.encode('BINARY', 'BINARY'),
+      #  content: body.encode('BINARY', 'BINARY')
+      #)
       entry = Atom::Entry.new(
-        title: title.encode('BINARY', 'BINARY'),
-        content: body.encode('BINARY', 'BINARY')
+        title: "title".encode('BINARY', 'BINARY'),
+        content: "body".encode('BINARY', 'BINARY')
       )
       client = Atompub::Client.new(auth: auth)
       res = client.create_entry(url, entry);
