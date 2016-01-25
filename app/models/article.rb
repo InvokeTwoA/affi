@@ -10,7 +10,7 @@ class Article < ActiveRecord::Base
 
   # はてなブログから記事削除
   def rm_hatena_blog
-    url = "#{SecretKeyValue.return_value('hatena_idol_user')}/#{self.blog_id}"
+    url = "#{SecretKeyValue.return_value('hatena_idol_url')}/#{self.blog_id}"
     user = SecretKeyValue.return_value('hatena_idol_user')
     api_key = SecretKeyValue.return_value('hatena_idol_key')
     Hatena.delete_blog(user, api_key, url)
