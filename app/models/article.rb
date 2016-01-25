@@ -6,7 +6,7 @@ class Article < ActiveRecord::Base
 
   # はてなブログから記事削除
   def rm_hatena_blog
-    url = "#{SecretsKeyValue.return_value('hatena_idol_url')}#{self.blog_id}"
+    url = "#{SecretsKeyValue.return_value('hatena_idol_url')}/#{self.blog_id}"
     user = SecretsKeyValue.return_value('hatena_idol_user')
     api_key = SecretsKeyValue.return_value('hatena_idol_key')
     Hatena.delete_blog(user, api_key, url)
@@ -108,8 +108,8 @@ class Article < ActiveRecord::Base
       )
       client = Atompub::Client.new(auth: auth)
       entry = Atom::Entry.new(
-        title: "title".encode('BINARY', 'BINARY'),
-        content: "body".encode('BINARY', 'BINARY')
+        title: "",
+        content: ""
       )
       res = client.create_entry(url, entry)
       return res.split("/").last
