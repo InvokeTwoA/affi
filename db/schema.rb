@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160124011937) do
+ActiveRecord::Schema.define(version: 20160125091758) do
 
   create_table "animations", force: true do |t|
     t.string   "title"
@@ -56,5 +56,12 @@ ActiveRecord::Schema.define(version: 20160124011937) do
     t.boolean  "inactive_flag"
     t.integer  "search_page",    default: 1
   end
+
+  create_table "secrets_key_values", force: true do |t|
+    t.string "k"
+    t.string "v"
+  end
+
+  add_index "secrets_key_values", ["k"], name: "index_secrets_key_values_on_k", unique: true, using: :btree
 
 end

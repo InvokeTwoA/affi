@@ -8,21 +8,12 @@ class Article < ActiveRecord::Base
   scope :success, -> { where("failed_flag != ?", false) }
   scope :active, -> { where("deleted_at IS NULL") }
 
-  YOUTUBE_DEVELOPER_KEY = 'AIzaSyAzoxN3WVjJ-Oa1eu0BontCw-G8W15MyuM'
-  YOUTUBE_API_SERVICE_NAME = 'youtube'
-  YOUTUBE_API_VERSION = 'v3'
-
   # はてなブログから記事削除
   def rm_hatena_blog
-    url = "https://blog.hatena.ne.jp/siki_kawa/kawa-e.hateblo.jp/atom/entry/#{self.blog_id}"
-    user = 'siki_kawa'
-    api_key = 'rfu388pqwx'
-    auth = Atompub::Auth::Wsse.new(
-      username: user,
-      password: api_key
-    )
-    client = Atompub::Client.new(auth: auth)
-    client.delete_entry(url);
+    url = "#{SecretKeyValue.return_value('hatena_idol_user')}/#{self.blog_id}"
+    user = SecretKeyValue.return_value('hatena_idol_user')
+    api_key = SecretKeyValue.return_value('hatena_idol_key')
+    Hatena.delete_blog(user, api_key, url)
     self.deleted_at = Time.now
     self.save!
   end
@@ -64,7 +55,6 @@ class Article < ActiveRecord::Base
         end
         tmp_response.items.each do |item|
           if Article.is_item_ok?(item) == true
-            puts "page = #{page}. get data"
             completed = true
             response = item
             break
@@ -130,7 +120,6 @@ class Article < ActiveRecord::Base
     end
 
     def search_amazon(word, page = 1)
-      #search_index = ['Books', 'DVD'].sample
       search_index = 'Books'
       #Amazon::Ecs.debug = true
       res = Amazon::Ecs.item_search(word,
@@ -200,80 +189,6 @@ class Article < ActiveRecord::Base
         end
       end
       asins
-    end
-
-    def search_youtube(keyword)
-      opts = Trollop::options do
-        opt :q, keyword, :type => String, :default => 'Google'
-        opt :max_results, 'Max results', :type => :int, :default => 25
-      end
-      client, youtube = self.get_youtube_service
-      begin
-        # Call the search.list method to retrieve results matching the specified
-        # query term.
-        search_response = client.execute!(
-          :api_method => youtube.search.list,
-          :parameters => {
-            :part => 'snippet',
-            :q => opts[:q],
-            :maxResults => opts[:max_results]
-          }
-        )
-        videos = []
-        channels = []
-        playlists = []
-
-        search_response.data.items.each do |search_result|
-          case search_result.id.kind
-            when 'youtube#video'
-              videos << "#{search_result.snippet.title} (#{search_result.id.videoId})"
-            when 'youtube#channel'
-              channels << "#{search_result.snippet.title} (#{search_result.id.channelId})"
-            when 'youtube#playlist'
-              playlists << "#{search_result.snippet.title} (#{search_result.id.playlistId})"
-          end
-        end
-        puts "Videos:\n", videos, "\n"
-        puts "Channels:\n", channels, "\n"
-        puts "Playlists:\n", playlists, "\n"
-      rescue Google::APIClient::TransmissionError => e
-        puts "error"
-        puts e.result.body
-      end
-    end
-
-    def get_authenticated_service
-      client = Google::APIClient.new(
-        :application_name => $PROGRAM_NAME,
-        :application_version => '1.0.0'
-      )
-      youtube = client.discovered_api(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION)
-
-      file_storage = Google::APIClient::FileStorage.new("#{$PROGRAM_NAME}-oauth2.json")
-      if file_storage.authorization.nil?
-        client_secrets = Google::APIClient::ClientSecrets.load
-        flow = Google::APIClient::InstalledAppFlow.new(
-          :client_id => client_secrets.client_id,
-          :client_secret => client_secrets.client_secret,
-          :scope => [YOUTUBE_SCOPE]
-        )
-        client.authorization = flow.authorize(file_storage)
-      else
-        client.authorization = file_storage.authorization
-      end
-
-      return client, youtube
-    end
-
-    def get_youtube_service
-      client = Google::APIClient.new(
-        :key => YOUTUBE_DEVELOPER_KEY,
-        :authorization => nil,
-        :application_name => 'kawa-e',
-        :application_version => '1.0.0'
-      )
-      youtube = client.discovered_api(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION)
-      return client, youtube
     end
 
     # amazon 検索結果を検証
