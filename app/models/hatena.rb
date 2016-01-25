@@ -12,9 +12,11 @@ class Hatena < ActiveRecord::Base
       Rails.logger.info "t=#{title.encoding.to_s}"
       Rails.logger.info "b=#{body.encoding.to_s}"
 
+      #title: title.force_encoding("BINARY"),
+      #content: body.force_encoding("BINARY")
       entry = Atom::Entry.new(
-        title: title.force_encoding("BINARY"),
-        content: body.force_encoding("BINARY")
+        title: title,
+        content: body
       )
       client = Atompub::Client.new(auth: auth)
       res = client.create_entry(url, entry);
