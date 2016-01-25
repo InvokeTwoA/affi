@@ -106,19 +106,8 @@ class Article < ActiveRecord::Base
       url = "#{SecretsKeyValue.return_value('hatena_idol_url')}"
       user = SecretsKeyValue.return_value('hatena_idol_user')
       api_key = SecretsKeyValue.return_value('hatena_idol_key')
-      entry = Atom::Entry.new(
-        title: title.encode('BINARY', 'BINARY'),
-        content: body.encode('BINARY', 'BINARY')
-      )
-      #blog_id = Hatena.post_blog(user, api_key, url, entry)
-      #return blog_id
-      auth = Atompub::Auth::Wsse.new(
-        username: user,
-        password: api_key
-      )
-      client = Atompub::Client.new(auth: auth)
-      res = client.create_entry(url, entry);
-      return res.split("/").last
+      blog_id = Hatena.post_blog(user, api_key, url, title, body)
+      return blog_id
     end
 
     def search_amazon(word, page = 1)
