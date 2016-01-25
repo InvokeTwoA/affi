@@ -1,5 +1,3 @@
-#!/usr/local/bin/ruby
-# -*- encoding: utf-8 -*-
 require 'atomutil'
 class Hatena < ActiveRecord::Base
   class << self
@@ -15,8 +13,8 @@ class Hatena < ActiveRecord::Base
       #title: title.force_encoding("BINARY"),
       #content: body.force_encoding("BINARY")
       entry = Atom::Entry.new(
-        title: title,
-        content: body
+        title: title.encode('BINARY', 'BINARY'),
+        content: body.encode('BINARY', 'BINARY')
       )
       client = Atompub::Client.new(auth: auth)
       res = client.create_entry(url, entry);
