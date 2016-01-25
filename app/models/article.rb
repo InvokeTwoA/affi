@@ -103,20 +103,11 @@ class Article < ActiveRecord::Base
 
     #  はてなブログに記事投稿
     def post_hatena_blog(title, body)
-      url = 'https://blog.hatena.ne.jp/siki_kawa/kawa-e.hateblo.jp/atom/entry'
-      user = 'siki_kawa'
-      api_key = 'rfu388pqwx'
-      auth = Atompub::Auth::Wsse.new(
-        username: user,
-        password: api_key
-      )
-      client = Atompub::Client.new(auth: auth)
-      entry = Atom::Entry.new(
-        title: title.encode('BINARY', 'BINARY'),
-        content: body.encode('BINARY', 'BINARY')
-       )
-      res = client.create_entry(url, entry);
-      return res.split("/").last
+      url = "#{SecretKeyValue.return_value('hatena_idol_url')}"
+      user = SecretKeyValue.return_value('hatena_idol_user')
+      api_key = SecretKeyValue.return_value('hatena_idol_key')
+      blog_id = Hatena.post_blog(user, api_key, url, title, body)
+      return blog_id
     end
 
     def search_amazon(word, page = 1)
@@ -194,7 +185,6 @@ class Article < ActiveRecord::Base
     # amazon 検索結果を検証
     def is_item_ok?(item)
       if item.get('ItemAttributes/IsAdultProduct') == "1"
-        puts 'false. adult product'
         return false
       end
       # 画像がない事は意外に多い
@@ -204,10 +194,8 @@ class Article < ActiveRecord::Base
       #end
       asin = item.get('ASIN')
       if Article.where(asin: asin).any?
-        puts "asin already posted"
         return false
       end
-      puts "this item is ok!"
       true
     end
   end
