@@ -3,16 +3,12 @@ require 'atomutil'
 class Hatena < ActiveRecord::Base
   class << self
     # 投稿に成功した場合はブログIDを返す
-    def post_blog(user, api_key, url, title, body)
+    def post_blog(user, api_key, url, entry)
       auth = Atompub::Auth::Wsse.new(
         username: user,
         password: api_key
       )
       client = Atompub::Client.new(auth: auth)
-      entry = Atom::Entry.new(
-        title:  title.force_encoding('BINARY'),
-        content: body.force_encoding('BINARY')
-       )
       res = client.create_entry(url, entry);
       return res.split("/").last
     end

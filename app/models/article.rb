@@ -106,7 +106,11 @@ class Article < ActiveRecord::Base
       url = "#{SecretsKeyValue.return_value('hatena_idol_url')}"
       user = SecretsKeyValue.return_value('hatena_idol_user')
       api_key = SecretsKeyValue.return_value('hatena_idol_key')
-      blog_id = Hatena.post_blog(user, api_key, url, title, body)
+      entry = Atom::Entry.new(
+        title: title.encode('BINARY', 'BINARY'),
+        content: body.encode('BINARY', 'BINARY')
+      )
+      blog_id = Hatena.post_blog(user, api_key, url, entry)
       return blog_id
     end
 
