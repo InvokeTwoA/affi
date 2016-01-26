@@ -23,6 +23,10 @@ class Hatena < ActiveRecord::Base
         password: api_key
       )
       client = Atompub::Client.new(auth: auth)
+      Rails.logger.info "##"
+      Rails.logger.info "title=#{title}"
+      Rails.logger.info "body=#{body}"
+      Rails.logger.info "##"
       entry = Atom::Entry.new(
         title: title.encode('BINARY', 'BINARY'),
         content: body.encode('BINARY', 'BINARY')

@@ -11,6 +11,7 @@ class Article < ActiveRecord::Base
     api_key = SecretsKeyValue.return_value('hatena_idol_key')
     title = "#{convert_category}#{self.title}"
     body = self.body
+    Rails.logger.info "title=#{title}"
     Rails.logger.info "body=#{body}"
     Hatena.update_blog(user, api_key, url, title, body)
   end
