@@ -24,9 +24,8 @@ module Affi
 
   class Application < Rails::Application
     Amazon::Ecs.options = {
-      :associate_tag =>     'ayanoochi-22',
-      :AWS_access_key_id => 'AKIAI5TN655PDXJZEQLA',
-      :AWS_secret_key =>   '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'
+      AWS_access_key_id: SecretsKeyValue.return_value('aws_access_key'),
+      AWS_secret_key: SecretsKeyValue.return_value('aws_secret_key')
     }
   end
 
