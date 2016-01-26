@@ -39,4 +39,4 @@
             = link_to '記事非公開', rm_blog_article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger', remote: true
         %td.center= link_to 'データ削除', article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger'
 .paginate
-  = paginate articles
+  = paginate articles, remote: true

@@ -1,39 +1,9 @@
 %ul
-  %li= link_to '有効のみ', keywords_path
-  %li= link_to '無効のみ', inactive_keywords_path
+  %li= link_to '有効のみ', keywords_path, remote: true
+  %li= link_to '無効のみ', inactive_keywords_path, remote: true
 
 .pull-right
   = link_to 'キーワードを追加する', new_keyword_path, class: 'btn btn-success'
-#{ @keywords.total_count }件
-.paginate
-  = paginate @keywords
-.main
-  %table.table.table-striped.table-hover
-    %tr
-      %th.center ID
-      %th.center 名前
-      %th.center タイプ
-      %th.center 記事数
-      %th.center 作成日
-      %th.center ステータス
-      %th.center ItemSearch Page
-      %th.center アクション
-    - @keywords.each do |keyword|
-      %tr
-        %td.center= keyword.id
-        %td.center= keyword.name
-        %td.center= keyword.word_type
-        %td.center= keyword.articles_count
-        %td.center= l keyword.created_at
-        %td.center= keyword.inactive_flag == true ? '無効' : '有効'
-        %td.center= keyword.search_page
-        %td.center
-          = form_for Article.new do
-            = hidden_field_tag 'word', keyword.name
-            = submit_tag 'キーワード指定投稿'
-          = link_to '編集', edit_keyword_path(keyword), class: 'btn btn-info'
-          = link_to '削除', keyword_path(keyword), method: :delete, data: { confirm: "#{ keyword.name }を削除します。よろしいですか？" }, class: 'btn btn-danger'
-          - if keyword.inactive_flag?
-            = link_to '有効にする', to_active_keyword_path(keyword), method: :put, class: 'btn btn-info'
-          - else
-            = link_to '無効にする', to_inactive_keyword_path(keyword), method: :put, class: 'btn btn-success'
+.collection
+  = render 'list', keywords: @keywords
+

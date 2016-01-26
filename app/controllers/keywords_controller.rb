@@ -1,17 +1,26 @@
 class KeywordsController < ApplicationController
   inherit_resources
+  respond_to :js, only: [:inactive, :destroy]
+
+  def index
+    index! do |format|
+      format.js {render 'reload'}
+    end
+  end
 
   def inactive
     @keywords = Keyword.inactive.recent.page(params[:page]).per(30).uniq
-    render :index
+    render 'reload'
   end
 
+  # PUT 有効にする
   def to_active
     resource.inactive_flag = false
     resource.save!
     redirect_to keywords_path, notice: 'キーワードを有効にしました' and return
   end
 
+  # PUT 無効にする
   def to_inactive
     resource.inactive_flag = true
     resource.save!
@@ -30,6 +39,7 @@ class KeywordsController < ApplicationController
     end
   end
 
+  private
   def collection
     @cond = params[:q] || {}
     @q = end_of_association_chain.search(@cond)
