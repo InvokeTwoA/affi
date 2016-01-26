@@ -10,7 +10,9 @@ class Article < ActiveRecord::Base
     user = SecretsKeyValue.return_value('hatena_idol_user')
     api_key = SecretsKeyValue.return_value('hatena_idol_key')
     title = "#{convert_category}#{self.title}"
-    Hatena.update_blog(user, api_key, url, title, self.body.force_encoding("BINARY"))
+    body = self.body
+    Rails.logger.info "body=#{body}"
+    Hatena.update_blog(user, api_key, url, title, body)
   end
 
   def convert_category
