@@ -4,6 +4,23 @@ class Article < ActiveRecord::Base
   scope :success, -> { where("failed_flag != ?", false) }
   scope :active, -> { where("deleted_at IS NULL") }
 
+  # ブログ更新（本文とカテゴリ）
+  def update_blog
+    url = "#{SecretsKeyValue.return_value('hatena_idol_url')}/#{self.blog_id}"
+    user = SecretsKeyValue.return_value('hatena_idol_user')
+    api_key = SecretsKeyValue.return_value('hatena_idol_key')
+    title = "#{convert_category}#{self.title}"
+    Hatena.update_blog(user, api_key, url, title, self.body)
+  end
+
+  def convertt_category
+    conv_category = ""
+    self.category.split(',').each do |value|
+      conv_category += "[#{value}]"
+    end
+    conv_category
+  end
+
   # はてなブログから記事削除
   def rm_hatena_blog
     url = "#{SecretsKeyValue.return_value('hatena_idol_url')}/#{self.blog_id}"

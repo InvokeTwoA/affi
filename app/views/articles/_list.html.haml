@@ -6,8 +6,8 @@
     %tr
       %th.center ID
       %th.center 投稿先のサイト
-      %th.center カテゴリ
       %th.center タイトル
+      %th.center カテゴリ
       %th.center 本文
       %th.center ASIN
       %th.center ブログID
@@ -32,6 +32,8 @@
         %td.center.red= l article.deleted_at if article.deleted_at.present?
         %td.center
           - if article.blog_id.present? && article.deleted_at.blank?
+            = link_to '記事編集', edit_article_path(article), class: 'btn btn-info'
+            %br
             = link_to '記事削除', rm_hatena_article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger', remote: true
           - elsif article.staging_flag?
             = link_to '本番反映', post_hatena_article_path(article), method: :post, class: 'btn btn-success'

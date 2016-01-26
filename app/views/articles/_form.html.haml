@@ -1,0 +1,10 @@
+= simple_form_for @article, html: { class: 'form form-horizontal'} do |f|
+  .form-group
+    %label.col-sm-2.control-label カテゴリ
+    .col-sm-5
+      = f.text_field :category, class: 'form-control'
+  .form-group
+    %label.col-sm-2.control-label 本文
+    .col-sm-10
+      = f.input_field :body
+    = f.submit '送信', class: 'btn btn-primary'

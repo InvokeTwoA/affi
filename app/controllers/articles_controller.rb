@@ -17,6 +17,14 @@ class ArticlesController < ApplicationController
     redirect_to :back, flash: { error: "記事投稿に失敗しました。\n #{ e.message }" }
   end
 
+  # 記事更新
+  def update
+    update! do
+      resource.update_blog
+      redirect_to article_path(article), notice: '更新しました'
+    end
+  end
+
   def post_hatena
     resource.upload_hatena
     redirect_to articles_path, notice: '投稿完了しました'
