@@ -38,6 +38,7 @@ class Article < ActiveRecord::Base
     self.save!
   end
 
+  # はてなブログに反映する
   def upload_hatena
     blog_id = Article.post_hatena_blog(self.title, self.body)
     self.update(blog_id: blog_id, staging_flag: false)
@@ -101,13 +102,15 @@ class Article < ActiveRecord::Base
       title = response.get('ItemAttributes/Title')
       category = nil
       if Keyword.idol.pluck(:name).include? word
-        title = "[#{word}]#{title}"
+        blog_title = "[#{word}]#{title}"
         category = word
+      else
+        blog_title = title
       end
 
       # はてなブログに投稿
       if post == true
-        blog_id = self.post_hatena_blog(title, body)
+        blog_id = self.post_hatena_blog(blog_title, body)
         article.update(title: title, body: body, asin: asin, failed_flag: false, category: category, image_url: image_url, blog_id: blog_id)
       else
         article.update(title: title, body: body, asin: asin, failed_flag: false, category: category, image_url: image_url, staging_flag: true)
@@ -127,9 +130,9 @@ class Article < ActiveRecord::Base
     def search_amazon(word, page = 1)
       search_index = 'Books'
       Amazon::Ecs.options = {
-        associate_tag: SecretsKeyValue.return_value('aws_associate_tag'),
+        associate_tag:     SecretsKeyValue.return_value('aws_associate_tag'),
         AWS_access_key_id: SecretsKeyValue.return_value('aws_access_key'),
-        AWS_secret_key: SecretsKeyValue.return_value('aws_secret_key')
+        AWS_secret_key:    SecretsKeyValue.return_value('aws_secret_key')
       }
       #Amazon::Ecs.debug = true
       res = Amazon::Ecs.item_search(word,
@@ -152,9 +155,6 @@ class Article < ActiveRecord::Base
           next
         end
 
-        author = res.get('Author')
-        relative_asins = self.get_relative_asins(author, asin)
-
         # 関連商品
         similar_goods_asins = self.get_similar_goods_asins(res)
 
@@ -173,19 +173,6 @@ class Article < ActiveRecord::Base
         break
       end
 
-    end
-
-    def get_relative_asins(author, asin)
-      return if author.blank?
-      puts "author = #{author}"
-      relative_asins = []
-      relative_response = self.search_amazon(author)
-      relative_response.items.each_with_index do |relative_res|
-        relative_asin = relative_res.get('ASIN')
-        next if relative_asin == asin
-        relative_asins.push relative_asin
-      end
-      relative_asins
     end
 
     # amazon API の関連商品
