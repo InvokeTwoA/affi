@@ -10,9 +10,7 @@ class Article < ActiveRecord::Base
     user = SecretsKeyValue.return_value('hatena_idol_user')
     api_key = SecretsKeyValue.return_value('hatena_idol_key')
     title = "#{convert_category}#{self.title}"
-    body = self.body
-    Rails.logger.info "title=#{title}"
-    Rails.logger.info "body=#{body}"
+    body = "記事更新 \n #{self.body}"
     Hatena.update_blog(user, api_key, url, title, body)
   end
 
