@@ -13,7 +13,7 @@ class Article < ActiveRecord::Base
     Hatena.update_blog(user, api_key, url, title, self.body)
   end
 
-  def convertt_category
+  def convert_category
     conv_category = ""
     self.category.split(',').each do |value|
       conv_category += "[#{value}]"
