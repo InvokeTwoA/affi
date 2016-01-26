@@ -108,6 +108,10 @@ class Article < ActiveRecord::Base
 
     def search_amazon(word, page = 1)
       search_index = 'Books'
+      Amazon::Ecs.options = {
+        AWS_access_key_id: SecretsKeyValue.return_value('aws_access_key'),
+        AWS_secret_key: SecretsKeyValue.return_value('aws_secret_key')
+      }
       #Amazon::Ecs.debug = true
       res = Amazon::Ecs.item_search(word,
         search_index:   search_index,

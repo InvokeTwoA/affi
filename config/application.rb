@@ -21,12 +21,4 @@ module Affi
       g.controller_specs = false
     end
   end
-
-  class Application < Rails::Application
-    Amazon::Ecs.options = {
-      AWS_access_key_id: SecretsKeyValue.return_value('aws_access_key'),
-      AWS_secret_key: SecretsKeyValue.return_value('aws_secret_key')
-    }
-  end
-
 end
