@@ -1,6 +1,6 @@
 require 'atomutil'
 class Article < ActiveRecord::Base
-  scope :recent, -> { order('id DESC') }
+  scope :recent, -> { order('updated_at DESC') }
   scope :success, -> { where("failed_flag != ?", false) }
   scope :active, -> { where("deleted_at IS NULL") }
 

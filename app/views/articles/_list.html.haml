@@ -34,9 +34,11 @@
           - if article.blog_id.present? && article.deleted_at.blank?
             = link_to '記事編集', edit_article_path(article), class: 'btn btn-info'
             %br
+            %br
             = link_to '記事削除', rm_hatena_article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger', remote: true
           - elsif article.staging_flag?
             = link_to '本番反映', post_hatena_article_path(article), method: :post, class: 'btn btn-success'
+            %br
             %br
             = link_to '記事非公開', rm_blog_article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger', remote: true
         %td.center= link_to 'データ削除', article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger'
