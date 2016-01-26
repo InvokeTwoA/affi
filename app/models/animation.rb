@@ -40,27 +40,18 @@ class Animation < ActiveRecord::Base
     "https://www.youtube.com/results?search_query=#{self.title}%E3%80%80#{no}:title=#{no}話"
   end
 
+  # 記事がなければ新規作成。あれば更新をかける
   def post_hatena_blog(title, body)
-    user = 'siki_kawa'
-    api_key = 'rfu388pqwx'
-    auth = Atompub::Auth::Wsse.new(
-      username: user,
-      password: api_key
-    )
-    client = Atompub::Client.new(auth: auth)
-
-    entry = Atom::Entry.new(
-      title: title.encode('BINARY', 'BINARY'),
-      content: body.encode('BINARY', 'BINARY')
-     )
+    url = "#{SecretsKeyValue.return_value('hatena_anime_url')}"
+    user = SecretsKeyValue.return_value('hatena_idol_user')
+    api_key = SecretsKeyValue.return_value('hatena_idol_key')
     if self.blog_id.nil? || self.blog_id == "" || self.blog_id.blank?
-      url = 'https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/entry'
-      res = client.create_entry(url, entry);
-      self.blog_id = res.split("/").last
+      blog_id = Hatena.post_blog(user, api_key, url, title, body)
+      self.blog_id = blog_id
       self.save!
     else 
-      url = "https://blog.hatena.ne.jp/siki_kawa/anime-douga.hateblo.jp/atom/entry/#{self.blog_id}"
-      client.update_entry(url, entry);
+      url = "#{url}/#{self.blog_id}"
+      Hatena.update_blog(user, api_key, url, title, body)
     end
   end
 end

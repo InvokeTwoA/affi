@@ -16,6 +16,21 @@ class Hatena < ActiveRecord::Base
       return res.split("/").last
     end
 
+    # はてな記事を更新
+    def update_blog(user, api_key, url, title, body)
+      auth = Atompub::Auth::Wsse.new(
+        username: user,
+        password: api_key
+      )
+      client = Atompub::Client.new(auth: auth)
+      entry = Atom::Entry.new(
+        title: title.encode('BINARY', 'BINARY'),
+        content: body.encode('BINARY', 'BINARY')
+      )
+      client.update_entry(url, entry);
+    end
+
+    # はてな記事を削除
     def delete_blog(user, api_key, url)
       auth = Atompub::Auth::Wsse.new(
         username: user,
