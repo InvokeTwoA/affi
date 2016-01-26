@@ -1,10 +1,6 @@
 class ArticlesController < ApplicationController
   inherit_resources
 
-  def index
-    @articles = Article.active.recent.page(params[:page]).per(30).uniq
-  end
-
   def all_articles
     @articles = Article.recent.page(params[:page]).per(30).uniq
     render :index
@@ -57,6 +53,11 @@ class ArticlesController < ApplicationController
     end
   rescue => e
     redirect_to :back, flash: { error: "削除に失敗しました。\n #{ e.message }" }
+  end
+
+  private
+  def collection
+    @articles = Article.active.recent.page(params[:page]).per(30).uniq
   end
 
 end
