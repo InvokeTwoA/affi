@@ -68,4 +68,11 @@ class ArticlesController < ApplicationController
     @articles = Article.active.recent.page(params[:page]).per(30).uniq
   end
 
+  def article_params
+    params.require(:article).permit(
+      :title,
+      :category,
+      :body,
+    )
+  end
 end
