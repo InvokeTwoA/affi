@@ -21,7 +21,7 @@ class Animation < ActiveRecord::Base
   end
 
   def hima_url(no)
-    "http://himado.in/?keyword=#{self.title}%20#{no}:title=#{no}話"
+    "http://himado.in/?keyword=#{self.title}%20#{no}"
   end
 
   def ani_url(no)
