@@ -1,5 +1,6 @@
 class ArticlesController < ApplicationController
   inherit_resources
+  respond_to :js
 
   def all_articles
     @articles = Article.recent.page(params[:page]).per(30).uniq
