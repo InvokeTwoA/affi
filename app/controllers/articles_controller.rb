@@ -21,13 +21,13 @@ class ArticlesController < ApplicationController
   # 記事更新
   def update
     update! do
-      resource.update_blog
+      resource.update_blog(params[:url_type])
       return redirect_to articles_path, notice: '更新しました'
     end
   end
 
   def post_hatena
-    resource.upload_hatena
+    resource.upload_hatena(params[:url_type])
     redirect_to articles_path, notice: '投稿完了しました'
   rescue => e
     redirect_to :back, flash: { error: "記事投稿に失敗しました。\n #{ e.message }" }
@@ -44,7 +44,7 @@ class ArticlesController < ApplicationController
 
   # はてなの記事非公開
   def rm_hatena
-    resource.rm_hatena_blog
+    resource.rm_hatena_blog(params[:url_type])
     respond_to do |format|
       format.js {render 'rm_hatena'}
       format.html {redirect_to articles_path, notice: 'はてなの記事を削除しました'}

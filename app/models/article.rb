@@ -5,12 +5,13 @@ class Article < ActiveRecord::Base
   scope :active, -> { where("deleted_at IS NULL") }
 
   # ブログ更新（本文とカテゴリ）
-  def update_blog
-    url = "#{SecretsKeyValue.return_value('hatena_idol_url')}/#{self.blog_id}"
+  def update_blog(mode)
+    url_type = "hatena_#{mode}_url"
+    url = "#{SecretsKeyValue.return_value(url_type)}/#{self.blog_id}"
     user = SecretsKeyValue.return_value('hatena_idol_user')
     api_key = SecretsKeyValue.return_value('hatena_idol_key')
     title = "#{convert_category}#{self.title}"
-    body = "記事更新 \n #{self.body}"
+    body = "記事更新 #{I18n.l(Time.now)} \n #{self.body}"
     Hatena.update_blog(user, api_key, url, title, body)
   end
 
@@ -23,8 +24,9 @@ class Article < ActiveRecord::Base
   end
 
   # はてなブログから記事削除
-  def rm_hatena_blog
-    url = "#{SecretsKeyValue.return_value('hatena_idol_url')}/#{self.blog_id}"
+  def rm_hatena_blog(mode)
+    url_type = "hatena_#{mode}_url" 
+    url = "#{SecretsKeyValue.return_value(url_type)}/#{self.blog_id}"
     user = SecretsKeyValue.return_value('hatena_idol_user')
     api_key = SecretsKeyValue.return_value('hatena_idol_key')
     Hatena.delete_blog(user, api_key, url)
@@ -39,8 +41,8 @@ class Article < ActiveRecord::Base
   end
 
   # はてなブログに反映する
-  def upload_hatena
-    blog_id = Article.post_hatena_blog(self.title, self.body)
+  def upload_hatena(mode)
+    blog_id = Article.post_hatena_blog(self.title, self.body, mode)
     self.update(blog_id: blog_id, staging_flag: false)
   end
 
@@ -119,8 +121,9 @@ class Article < ActiveRecord::Base
     end
 
     #  はてなブログに記事投稿
-    def post_hatena_blog(title, body)
-      url     = SecretsKeyValue.return_value('hatena_idol_url')
+    def post_hatena_blog(title, body, mode)
+      url_type = "hatena_#{mode}_url"
+      url     = SecretsKeyValue.return_value(url_type)
       user    = SecretsKeyValue.return_value('hatena_idol_user')
       api_key = SecretsKeyValue.return_value('hatena_idol_key')
       blog_id = Hatena.post_blog(user, api_key, url, title, body)
