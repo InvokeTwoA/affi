@@ -58,7 +58,7 @@ class Article < ActiveRecord::Base
       completed = false
       start_page = keyword.search_page
 
-      article = Article.create(title: word, body: "これから入稿します", failed_flag: true, target: 'グラビア')
+      article = Article.create(title: word, body: "これから入稿します", failed_flag: true, target: url_type)
       (start_page..400).each_with_index do |i|
         page = i
         if keyword.search_page < i

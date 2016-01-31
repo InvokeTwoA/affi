@@ -19,10 +19,10 @@
     %tr
       %td.center アクション
       %td.center
+        - url_type = article.target == 'グラビア' ? 'idol' : article.target
         - if article.blog_id.present? && article.deleted_at.blank?
-          = link_to '記事削除', rm_hatena_article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger'
+          = link_to '記事削除', rm_hatena_article_path(article, url_type: url_type), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger'
         - elsif article.staging_flag?
-          = link_to '本番反映', post_hatena_article_path(article), method: :post, class: 'btn btn-success'
+          = link_to '本番反映', post_hatena_article_path(article, url_type: url_type), method: :post, class: 'btn btn-success'
           %br
           = link_to '記事非公開', rm_blog_article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger'
-      /%td.center= link_to '削除', article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger'
