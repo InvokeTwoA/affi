@@ -4,6 +4,9 @@ namespace :articles do
     # グラビア関係の記事を追加
     Article.new_post('idol')
 
+    # メイド関係の記事を追加（下書きで）
+    Article.new_post('maid', nil, false, 'maid')
+
     # 無料アニメを追加（ただし、更新日がマッチしたもののみ）
     wdays = ["日", "月", "火", "水", "木", "金", "土"]
     youbi = wdays[Time.now.wday]
