@@ -48,8 +48,10 @@ class Article < ActiveRecord::Base
 
   class << self
     def new_post(mode = nil, word = nil, post = true, url_type)
-      if word.nil?
-        keyword = Keyword.select_word(mode) if word.nil?
+      if url_type == 'maid'
+        keyword = Keyword.select_maid_word
+      elsif word.nil?
+        keyword = Keyword.select_idol_word(mode) if word.nil?
       else
         keyword = Keyword.find_by_name word
       end
@@ -80,6 +82,7 @@ class Article < ActiveRecord::Base
         end
         break if completed == true
       end
+
       # もうデータを取り尽くしていればエラーを出力して処理終了
       if completed == false
         article.update(body: "ヒット件数が0件でした(eachした結果)")
@@ -100,10 +103,12 @@ class Article < ActiveRecord::Base
           similar_goods_asins: similar_goods_asins 
         }
       )
+
       # 記事タイトル(特定アイドル名だったらカテゴリにする)
       title = response.get('ItemAttributes/Title')
       category = nil
-      if Keyword.idol.pluck(:name).include? word
+      if url_type == 'maid'
+      elsif Keyword.idol.pluck(:name).include? word
         blog_title = "[#{word}]#{title}"
         category = word
       else

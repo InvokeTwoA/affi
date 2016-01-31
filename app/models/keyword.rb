@@ -6,16 +6,24 @@ class Keyword < ActiveRecord::Base
 
   scope :general, -> { where(word_type: 'general')}
   scope :idol, -> { where(word_type: 'idol')}
+  scope :maid, -> { where(word_type: 'maid')}
 
   class << self
-    def select_word(mode)
+    # グラビア関係のキーワード
+    def select_idol_word(mode)
       if mode == "idol"
-        id = idol.active.pluck(:id).sample
+        id = idol.recent.active.pluck(:id).sample
         keyword = Keyword.find id
       else
         id = recent.active.pluck(:id).sample
         keyword = Keyword.find id
       end
+    end
+
+    # メイド関係のキーワード
+    def select_maid_word
+      id = maid.recent.active.pluck(:id).sample
+      Keyword.find id
     end
   end
 end
