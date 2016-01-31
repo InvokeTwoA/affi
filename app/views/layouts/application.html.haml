@@ -25,7 +25,6 @@
           %li= link_to '記事入校状況', articles_path
           %li= link_to 'キーワード一覧', keywords_path
           %li= link_to 'アニメ一覧', animations_path
-          /%li= link_to 'コメント順', popular_words_path
         /.social{ style: 'text-align: right; padding: 10px'}
         /  = link_to 'ツィート', 'https://twitter.com/share', class: 'twitter-share-button', data: { url: root_url, text: "セリフ画像で俳句を自動生成  #かっぱ俳句", lang: "ja" }
         /  :javascript
@@ -39,4 +38,4 @@
         = render 'flash_box'
       = yield
     .copyright{ style: 'text-align: center' }
-      Copyright &copy; 2013 かっぱ All Rights Reserved.
+      Copyright &copy; 2016 かっぱ All Rights Reserved.

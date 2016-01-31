@@ -9,7 +9,7 @@ class ArticlesController < ApplicationController
   
   def create
     if params[:word].present?
-      article = Article.new_post(params[:mode], params[:word], false, 'idol')
+      article = Article.new_post(params[:mode], params[:word], false, params[:url_type])
     else
       article = Article.new_post(nil, nil, false, params[:url_type])
     end
