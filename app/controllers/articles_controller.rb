@@ -21,7 +21,7 @@ class ArticlesController < ApplicationController
   # 記事更新
   def update
     update! do
-      resource.update_blog(params[:url_type])
+      resource.update_blog(resource.target)
       return redirect_to articles_path, notice: '更新しました'
     end
   end
