@@ -47,7 +47,7 @@ class Article < ActiveRecord::Base
   end
 
   class << self
-    def new_post(mode = nil, word = nil, post = true)
+    def new_post(mode = nil, word = nil, post = true, url_type)
       if word.nil?
         keyword = Keyword.select_word(mode) if word.nil?
       else
@@ -112,7 +112,7 @@ class Article < ActiveRecord::Base
 
       # はてなブログに投稿
       if post == true
-        blog_id = self.post_hatena_blog(blog_title, body)
+        blog_id = self.post_hatena_blog(blog_title, body, url_type)
         article.update(title: title, body: body, asin: asin, failed_flag: false, category: category, image_url: image_url, blog_id: blog_id)
       else
         article.update(title: title, body: body, asin: asin, failed_flag: false, category: category, image_url: image_url, staging_flag: true)

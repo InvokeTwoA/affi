@@ -2,7 +2,11 @@ class SecretsKeyValue < ActiveRecord::Base
   class << self
     def return_value(key)
       secrets_key_value = find_by(k: key)
-      secrets_key_value.v
+      if secrets_key_value.present?
+        secrets_key_value.v
+      else
+        puts "k is not exist. #{k}"
+      end
     end
   end
 end
