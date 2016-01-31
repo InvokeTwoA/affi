@@ -2,8 +2,8 @@
   %li= link_to 'アクティブのみ', articles_path
   %li= link_to '全て表示', all_articles_articles_path
 .pull-right
-  = link_to '記事を投稿する', articles_path, method: :post, class: 'btn btn-success'
-  = link_to '記事を投稿する(特定アイドル)', articles_path(mode: 'idol'), method: :post, class: 'btn btn-success'
+  = link_to 'アイドル記事を投稿する', articles_path(url_type: 'idol'), method: :post, class: 'btn btn-success'
+  = link_to 'メイド記事を投稿する', articles_path(url_type: 'maid'), method: :post, class: 'btn btn-success'
   = form_for Article.new do
     = select_tag 'word', options_for_select(Keyword.active.pluck(:name))
     = submit_tag 'キーワード指定投稿'

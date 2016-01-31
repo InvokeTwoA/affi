@@ -9,9 +9,9 @@ class ArticlesController < ApplicationController
   
   def create
     if params[:word].present?
-      article = Article.new_post(nil, params[:word], false)
+      article = Article.new_post(params[:mode], params[:word], false, 'idol')
     else
-      article = Article.new_post(params[:mode], nil, false)
+      article = Article.new_post(nil, nil, false, params[:url_type])
     end
     redirect_to article_path(article), notice: '投稿完了しました'
   rescue => e
