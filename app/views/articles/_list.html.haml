@@ -16,7 +16,7 @@
       %th.center 記事削除日
       /%th.center アクション
     - articles.each do |article|
-      %tr{ style: css_active_row(article.staging_flag)}
+      %tr{ class: css_active_row(article.staging_flag)}
         %td.center= article.id
         %td.center= article.target
         %td.center{ class: ("red" if article.failed_flag?) }
