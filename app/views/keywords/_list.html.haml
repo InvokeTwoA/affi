@@ -24,7 +24,7 @@
         %td.center
           = form_for Article.new do
             = hidden_field_tag 'word', keyword.name
-            = hidden_field_tag 'url_type', keyword.target
+            = hidden_field_tag 'url_type', keyword.word_type
             = submit_tag 'キーワード指定投稿'
           %br
           = link_to '編集', edit_keyword_path(keyword), class: 'btn btn-info'
