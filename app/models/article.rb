@@ -211,13 +211,7 @@ class Article < ActiveRecord::Base
         return false
       end
       title = item.get('ItemAttributes/Title')
-      NgWord.each do |ng_word|
-        if title.include?(ng_word)
-          ng_word.hits_count += 1
-          ng_word.save!
-          return false
-        end
-      end
+      return false unless NgWord.is_ok?(title)
       true
     end
   end
