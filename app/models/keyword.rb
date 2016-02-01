@@ -15,7 +15,8 @@ class Keyword < ActiveRecord::Base
         id = idol.recent.active.pluck(:id).sample
         keyword = Keyword.find id
       else
-        id = recent.active.pluck(:id).sample
+        id_list = general.active.pluck(:id) + idol.active.pluck(:id)
+        id = id_list.sample
         keyword = Keyword.find id
       end
     end
