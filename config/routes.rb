@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       put :to_inactive
     end
   end
+  resources :ng_words
   resources :animations do
     member do
       put :post_article

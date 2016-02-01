@@ -1,0 +1,20 @@
+#{ ng_words.total_count }件
+.paginate
+  = paginate ng_words, remote: true
+.main
+  %table.table.table-striped.table-hover
+    %tr
+      %th.center ID
+      %th.center 名前
+      %th.center 検出数
+      %th.center アクション
+    - ng_words.each do |ng_word|
+      %tr
+        %td.center= ng_word.id
+        %td.center= ng_word.name
+        %td.center= ng_word.hits_count
+        %td.center
+          = link_to '編集', edit_ng_word_path(ng_word), class: 'btn btn-info'
+          = link_to '削除', ng_word_path(ng_word), method: :delete, data: { confirm: "#{ ng_word.name }を削除します。よろしいですか？" }, class: 'btn btn-danger'
+.paginate
+  = paginate ng_words, remote: true

@@ -210,6 +210,14 @@ class Article < ActiveRecord::Base
       if Article.where(asin: asin).any?
         return false
       end
+      title = item.get('ItemAttributes/Title')
+      NgWord.each do |ng_word|
+        if title.include?(ng_word)
+          ng_word.hits_count += 1
+          ng_word.save!
+          return false
+        end
+      end
       true
     end
   end

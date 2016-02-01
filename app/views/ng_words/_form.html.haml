@@ -1,0 +1,6 @@
+= simple_form_for resource, html: { class: 'form form-horizontal'} do |f|
+  .form-group
+    %label.col-sm-2.control-label 名前
+    .col-sm-5
+      = f.text_field :name, class: 'form-control'
+    = f.submit '送信', class: 'btn btn-primary'
