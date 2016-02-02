@@ -17,7 +17,7 @@ class NgWordsController < ApplicationController
   def collection
     @cond = params[:q] || {}
     @q = end_of_association_chain.search(@cond)
-    @ng_words = NgWord.recent.major.page(params[:page]).per(30).uniq
+    @ng_words = NgWord.major.page(params[:page]).per(30).uniq
   end
 
   def ng_word_params
