@@ -6,7 +6,7 @@
   = link_to 'メイド記事を投稿する', articles_path(url_type: 'maid'), method: :post, class: 'btn btn-success'
   = form_for Article.new do
     = select_tag 'word', options_for_select(Keyword.active.pluck(:name))
-    = hidden_tag 'url_type', 'idol'
+    = hidden_field_tag 'url_type', 'idol'
     = submit_tag 'キーワード指定投稿'
 .collection
   = render 'list', articles: @articles
