@@ -17,7 +17,6 @@ namespace :articles do
       animation.story_no += 1
       animation.save!
       animation.post_article
-      puts "update #{animation.title}"
     end
   end
 

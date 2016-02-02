@@ -1,5 +1,6 @@
 class NgWord < ActiveRecord::Base
   scope :recent, -> { order('id DESC') }
+  scope :major, -> { order('hits_count DESC')}
 
   class << self
     def is_ok?(title)
