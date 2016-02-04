@@ -1,7 +1,7 @@
 namespace :articles do
   desc '新しい記事入稿'
   task new_post: :environment do
-    Animate.update_article
+    Animation.update_article
     begin
       # グラビア関係の記事を追加
       Article.new_post('idol')
