@@ -198,14 +198,18 @@ class Article < ActiveRecord::Base
 
     # amazon 検索結果を検証
     def is_item_ok?(item)
+      # アダルトはNG
       if item.get('ItemAttributes/IsAdultProduct') == "1"
         return false
       end
-      # 画像がない事は意外に多い
-      #if item.get("LargeImage/URL") == nil
-      #  puts "image not found"
-      #  return false
-      #end
+
+      # 画像がなければNG
+      if item.get("LargeImage/URL") == nil
+        puts "image not found"
+        return false
+      end
+
+      # 既にASINが記事で使われていたらNG
       asin = item.get('ASIN')
       if Article.where(asin: asin).any?
         return false
