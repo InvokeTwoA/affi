@@ -9,8 +9,8 @@ namespace :articles do
     end
 
     begin
-    # メイド関係の記事を追加（下書きで）
-    Article.new_post('maid', nil, false, 'maid')
+      # メイド関係の記事を追加（下書きで）
+      # Article.new_post('maid', nil, false, 'maid')
     rescue
     end
 
