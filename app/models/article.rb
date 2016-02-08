@@ -51,8 +51,10 @@ class Article < ActiveRecord::Base
       if url_type == 'maid'
         keyword = Keyword.select_maid_word
       elsif word.nil?
+        url_type = 'idol'
         keyword = Keyword.select_idol_word(mode) if word.nil?
       else
+        url_type = 'idol'
         keyword = Keyword.find_by_name word
       end
       word = keyword.name
