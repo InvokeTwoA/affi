@@ -49,6 +49,7 @@ class KeywordsController < ApplicationController
   def keyword_params
     params.require(:keyword).permit(
       :name,
+      :category,
       :word_type,
       :search_page,
     )
