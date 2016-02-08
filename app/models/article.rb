@@ -113,6 +113,9 @@ class Article < ActiveRecord::Base
       elsif Keyword.idol.pluck(:name).include? word
         blog_title = "[#{word}]#{title}"
         category = word
+      else if keyword.category.present?
+        category = keyword.category
+        blog_title = title
       else
         blog_title = title
       end

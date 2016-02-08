@@ -6,9 +6,10 @@
     %tr
       %th.center ID
       %th.center 名前
+      %th.center カテゴリ
       %th.center タイプ
-      %th.center 記事数
-      %th.center 作成日
+      /%th.center 記事数
+      /%th.center 作成日
       %th.center ステータス
       %th.center ItemSearch Page
       %th.center アクション
@@ -16,9 +17,10 @@
       %tr
         %td.center= keyword.id
         %td.center= keyword.name
+        %td.center= keyword.category
         %td.center= keyword.word_type
-        %td.center= keyword.articles_count
-        %td.center= l keyword.created_at
+        /%td.center= keyword.articles_count
+        /%td.center= l keyword.created_at
         %td.center= keyword.inactive_flag == true ? '無効' : '有効'
         %td.center= keyword.search_page
         %td.center
