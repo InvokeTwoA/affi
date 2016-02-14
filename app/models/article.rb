@@ -72,6 +72,8 @@ class Article < ActiveRecord::Base
         tmp_response = self.search_amazon(word, page)
         if tmp_response.items.count == 0 
           article.update(body: "ヒット件数が0件でした(itemsのcountが0)")
+          keyword.inactive_flag = true
+          keyword.save!
           return
         end
         tmp_response.items.each do |item|
