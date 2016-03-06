@@ -100,7 +100,7 @@ class Article < ActiveRecord::Base
 
       # 記事作成
       body = ApplicationController.new.render_to_string(
-        :template => 'articles/_article',
+        :template => 'admin/articles/_article',
         :layout => false,
         :locals => { 
           :res => response, 
@@ -175,7 +175,7 @@ class Article < ActiveRecord::Base
 
         # 記事作成
         body = ApplicationController.new.render_to_string(
-          :template => 'articles/_article',
+          :template => 'admin/articles/_article',
           :layout => false,
           :locals => { 
             :res => res, 
