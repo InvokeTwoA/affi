@@ -1,0 +1,31 @@
+.paginate
+  /= paginate rookie_awards, remote: true
+.main
+  %table.table.table-striped.table-hover
+    %tr
+      %th.center 名前
+      %th.center 公式URL
+      /%th.center 画像
+      %th.center 量
+      %th.center 賞金
+      %th.center 締め切り
+      %th.center 応募タイプ(原稿郵送、web)
+      %th.center プロの応募
+      %th.center 備考
+    - rookie_awards.each do |rookie_award|
+      %tr
+        %td.center= rookie_award.name
+        %td.center
+          = link_to '公式ページ', rookie_award.public_url, target: '_brank'
+        /%td.center= rookie_award.image
+        %td.center= rookie_award.volume
+        %td.center= rookie_award.money
+        %td.center
+          = l rookie_award.deadline_date
+          (あと#{ time_ago_in_words rookie_award.deadline_date })
+        %td.center= rookie_award.submit_type
+        %td.center
+          = rookie_award.can_professional? ? '可' : '不可'
+        %td.center= rookie_award.note
+/.paginate
+/  = paginate articles, remote: true

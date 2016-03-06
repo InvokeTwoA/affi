@@ -22,6 +22,7 @@
         %a.navbar-brand{:href => root_path} TOP
       .navbar-collapse.collapse.navbar-responsive-collapse
         %ul.nav.navbar-nav
+          %li= link_to '新人賞一覧', admin_rookie_awards_path
           %li= link_to '記事入校状況', admin_articles_path
           %li= link_to 'キーワード一覧', admin_keywords_path
           %li= link_to 'NGワード一覧', admin_ng_words_path

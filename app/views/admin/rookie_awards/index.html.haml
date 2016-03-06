@@ -1,4 +1,7 @@
 %h1 新人賞データベース
 
+.pull-right
+  = link_to '追加', new_admin_rookie_award_path, class: 'btn btn-success'
+
 .collection
   = render 'list', rookie_awards: @rookie_awards

@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
-  root to: "top#index"
+  root to: "rookie_awards#index"
+  #root to: "top#index"
   #root to: "articles#index"
+  
+  resources :rookie_awards, only: [:index, :show]
   namespace :admin do
     resources :articles do
       collection do
@@ -27,5 +30,6 @@ Rails.application.routes.draw do
         put :post_article
       end
     end
+    resources :rookie_awards
   end
 end
