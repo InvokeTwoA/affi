@@ -58,7 +58,7 @@ class Admin::ArticlesController < Admin::ApplicationController
     resource.rm_blog
     respond_to do |format|
       format.js {render 'rm_blog'}
-      format.html {redirect_to articles_path, notice: 'delted_at を設定しました'}
+      format.html {redirect_to admin_articles_path, notice: 'delted_at を設定しました'}
     end
   rescue => e
     redirect_to :back, flash: { error: "削除に失敗しました。\n #{ e.message }" }

@@ -7,10 +7,11 @@
       %th.center 応募方法
       %th.center 量
       %th.center 賞金
-      %th.center 画像
+      /%th.center 画像
       %th.center 締め切り
       %th.center プロの応募
       %th.center 備考
+      %th
     - rookie_awards.each do |rookie_award|
       %tr
         %td.center= rookie_award.name
@@ -19,7 +20,7 @@
         %td.center= rookie_award.volume
         %td.center= rookie_award.money
         %td.center= rookie_award.submit_type
-        %td.center= rookie_award.image
+        /%td.center= rookie_award.image
         %td.center= l rookie_award.deadline_date
         %td.center= rookie_award.can_professional
         %td.center= rookie_award.note

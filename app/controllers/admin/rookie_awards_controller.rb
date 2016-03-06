@@ -1,4 +1,4 @@
-class Admin::RookieAwardsController < ApplicationController
+class Admin::RookieAwardsController < Admin::ApplicationController
   inherit_resources
 
   def create

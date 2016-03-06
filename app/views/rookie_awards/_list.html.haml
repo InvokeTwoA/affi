@@ -16,7 +16,9 @@
         %td.center= simple_format rookie_award.money
         %td.center
           = l rookie_award.deadline_date
-          (あと#{ time_ago_in_words rookie_award.deadline_date })
+          (あと
+          %span.red= time_ago_in_words rookie_award.deadline_date
+          )
         %td.center= rookie_award.submit_type
         %td.center
           = rookie_award.can_professional? ? '可' : '不可'
