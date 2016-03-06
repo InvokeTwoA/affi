@@ -5,7 +5,7 @@ class Animation < ActiveRecord::Base
   def post_article
     title = "[#{self.category}]#{self.title} 無料動画まとめ"
     body = ApplicationController.new.render_to_string(
-      :template => 'animations/_article',
+      :template => 'admin/animations/_article',
       :layout => false,
       :locals => { 
         :resource => self, 
