@@ -14,7 +14,7 @@
         %td.center= ng_word.name
         %td.center= ng_word.hits_count
         %td.center
-          = link_to '編集', edit_ng_word_path(ng_word), class: 'btn btn-info'
-          = link_to '削除', ng_word_path(ng_word), method: :delete, data: { confirm: "#{ ng_word.name }を削除します。よろしいですか？" }, class: 'btn btn-danger'
+          = link_to '編集', edit_admin_ng_word_path(ng_word), class: 'btn btn-info'
+          = link_to '削除', admin_ng_word_path(ng_word), method: :delete, data: { confirm: "#{ ng_word.name }を削除します。よろしいですか？" }, class: 'btn btn-danger'
 .paginate
   = paginate ng_words, remote: true

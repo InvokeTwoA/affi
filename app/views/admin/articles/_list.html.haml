@@ -23,7 +23,7 @@
           - if article.failed_flag?
             = article.title
           - else
-            = link_to article.title, article_path(article)
+            = link_to article.title, admin_article_path(article)
         %td.center= article.category
         %td.center= simple_format article.body.truncate(50) if article.body.present?
         /%td.center= article.asin
@@ -33,15 +33,16 @@
         %td.center
           - url_type = article.target == 'グラビア' ? 'idol' : article.target
           - if article.blog_id.present? && article.deleted_at.blank?
-            = link_to '記事編集', edit_article_path(article), class: 'btn btn-info'
+            = link_to '記事編集', edit_admin_article_path(article), class: 'btn btn-info'
             %br
             %br
-            = link_to '記事削除', rm_hatena_article_path(article, url_type: url_type), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger', remote: true
+            /= link_to '記事削除', rm_hatena_article_path(article, url_type: url_type), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger', remote: true
+            = link_to '記事削除', rm_hatena_admin_article_path(article, url_type: url_type), method: :delete, class: 'btn btn-danger', remote: true
           - elsif article.staging_flag?
-            = link_to '本番反映', post_hatena_article_path(article, url_type: url_type), method: :post, class: 'btn btn-success'
+            = link_to '本番反映', post_hatena_admin_article_path(article, url_type: url_type), method: :post, class: 'btn btn-success'
             %br
             %br
-            = link_to '記事非公開', rm_blog_article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger', remote: true
-        %td.center= link_to 'データ削除', article_path(article), method: :delete, data: { confirm: "#{ article.title }を削除します。よろしいですか？" }, class: 'btn btn-danger', remote: true
+            = link_to '記事非公開', rm_blog_admin_article_path(article), method: :delete, class: 'btn btn-danger', remote: true
+        %td.center= link_to 'データ削除', admin_article_path(article), method: :delete, class: 'btn btn-danger', remote: true
 .paginate
   = paginate articles, remote: true

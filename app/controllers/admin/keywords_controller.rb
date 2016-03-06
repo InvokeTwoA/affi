@@ -1,4 +1,4 @@
-class KeywordsController < ApplicationController
+class Admin::KeywordsController < Admin::ApplicationController
   inherit_resources
   respond_to :js, only: [:inactive, :destroy]
 
@@ -17,25 +17,25 @@ class KeywordsController < ApplicationController
   def to_active
     resource.inactive_flag = false
     resource.save!
-    redirect_to keywords_path, notice: 'キーワードを有効にしました' and return
+    redirect_to admin_keywords_path, notice: 'キーワードを有効にしました' and return
   end
 
   # PUT 無効にする
   def to_inactive
     resource.inactive_flag = true
     resource.save!
-    redirect_to keywords_path, notice: 'キーワードを無効にしました' and return
+    redirect_to admin_keywords_path, notice: 'キーワードを無効にしました' and return
   end
 
   def create
     create! do
-      redirect_to keywords_path, notice: 'キーワードを追加しました' and return
+      redirect_to admin_keywords_path, notice: 'キーワードを追加しました' and return
     end
   end
 
   def update
     update! do
-      redirect_to keywords_path, notice: 'キーワードを編集しました' and return
+      redirect_to admin_keywords_path, notice: 'キーワードを編集しました' and return
     end
   end
 

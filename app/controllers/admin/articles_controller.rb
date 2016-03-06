@@ -1,4 +1,4 @@
-class ArticlesController < ApplicationController
+class Admin::ArticlesController < Admin::ApplicationController
   inherit_resources
   respond_to :js
 

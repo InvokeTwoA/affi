@@ -1,0 +1,12 @@
+%ul
+  %li= link_to 'アクティブのみ', admin_articles_path
+  %li= link_to '全て表示', all_articles_admin_articles_path
+.pull-right
+  = link_to 'アイドル記事を投稿する', admin_articles_path(url_type: 'idol'), method: :post, class: 'btn btn-success'
+  = link_to 'メイド記事を投稿する', admin_articles_path(url_type: 'maid'), method: :post, class: 'btn btn-success'
+  = form_for Article.new, url: admin_articles_path, method: :post do
+    = select_tag 'word', options_for_select(Keyword.active.pluck(:name))
+    = hidden_field_tag 'url_type', 'idol'
+    = submit_tag 'キーワード指定投稿'
+.collection
+  = render 'list', articles: @articles

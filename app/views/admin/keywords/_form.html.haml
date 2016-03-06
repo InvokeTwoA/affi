@@ -1,4 +1,4 @@
-= simple_form_for @keyword, html: { class: 'form form-horizontal'} do |f|
+= simple_form_for @keyword, url: admin_keywords_path, method: :post, html: { class: 'form form-horizontal'} do |f|
   .form-group
     %label.col-sm-2.control-label 名前
     .col-sm-5

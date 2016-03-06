@@ -1,9 +1,0 @@
-%ul
-  %li= link_to '有効のみ', keywords_path, remote: true
-  %li= link_to '無効のみ', inactive_keywords_path, remote: true
-
-.pull-right
-  = link_to 'キーワードを追加する', new_keyword_path, class: 'btn btn-success'
-.collection
-  = render 'list', keywords: @keywords
-

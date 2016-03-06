@@ -1,9 +1,9 @@
-class AnimationsController < ApplicationController
+class Admin::AnimationsController < Admin::ApplicationController
   inherit_resources
 
   def create
     create! do
-      redirect_to animations_path and return
+      redirect_to admin_animations_path and return
     end
   rescue => e
     redirect_to :back, flash: { error: "記事投稿に失敗しました。\n #{ e.message }" }
@@ -11,7 +11,7 @@ class AnimationsController < ApplicationController
 
   def update
     update! do
-      redirect_to animations_path and return
+      redirect_to admin_animations_path and return
     end
   rescue => e
     redirect_to :back, flash: { error: "記事投稿に失敗しました。\n #{ e.message }" }
@@ -19,7 +19,7 @@ class AnimationsController < ApplicationController
 
   def post_article
     resource.post_article
-    redirect_to animations_path
+    redirect_to admin_animations_path
   rescue => e
     redirect_to :back, flash: { error: "記事投稿に失敗しました。\n #{ e.message }" }
   end

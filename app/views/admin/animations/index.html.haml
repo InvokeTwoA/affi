@@ -1,5 +1,5 @@
 .pull-right
-  = link_to 'データを追加する', new_animation_path, class: 'btn btn-success'
+  = link_to 'データを追加する', new_admin_animation_path, class: 'btn btn-success'
 #{ @animations.total_count }件
 .paginate
   = paginate @animations
@@ -36,10 +36,10 @@
         %td.center= animation.onair_hour
         %td.center= l animation.updated_at
         %td.center
-          = link_to '記事投稿', post_article_animation_path(animation), method: :put, class: 'btn btn-info'
+          = link_to '記事投稿', post_article_admin_animation_path(animation), method: :put, class: 'btn btn-info'
           %br
           %br
-          = link_to '編集', edit_animation_path(animation), class: 'btn btn-success'
+          = link_to '編集', edit_admin_animation_path(animation), class: 'btn btn-success'
           %br
           %br
-          = link_to '削除', animation_path(animation), method: :delete, data: { confirm: "#{ animation.title }を削除します。よろしいですか？" }, class: 'btn btn-danger'
+          = link_to '削除', admin_animation_path(animation), method: :delete, data: { confirm: "#{ animation.title }を削除します。よろしいですか？" }, class: 'btn btn-danger'
