@@ -13,7 +13,7 @@ class Admin::ArticlesController < Admin::ApplicationController
     else
       article = Article.new_post(nil, nil, false, params[:url_type])
     end
-    redirect_to article_path(article), notice: '投稿完了しました'
+    redirect_to admin_article_path(article), notice: '投稿完了しました'
   rescue => e
     redirect_to :back, flash: { error: "記事投稿に失敗しました。\n #{ e.message }" }
   end
@@ -22,13 +22,13 @@ class Admin::ArticlesController < Admin::ApplicationController
   def update
     update! do
       resource.update_blog(resource.target)
-      return redirect_to articles_path, notice: '更新しました'
+      return redirect_to admin_articles_path, notice: '更新しました'
     end
   end
 
   def post_hatena
     resource.upload_hatena(params[:url_type])
-    redirect_to articles_path, notice: '投稿完了しました'
+    redirect_to admin_articles_path, notice: '投稿完了しました'
   rescue => e
     redirect_to :back, flash: { error: "記事投稿に失敗しました。\n #{ e.message }" }
   end
@@ -47,7 +47,7 @@ class Admin::ArticlesController < Admin::ApplicationController
     resource.rm_hatena_blog(params[:url_type])
     respond_to do |format|
       format.js {render 'rm_hatena'}
-      format.html {redirect_to articles_path, notice: 'はてなの記事を削除しました'}
+      format.html {redirect_to admin_articles_path, notice: 'はてなの記事を削除しました'}
     end
   rescue => e
     redirect_to :back, flash: { error: "記事非公開に失敗しました。\n #{ e.message }" }
