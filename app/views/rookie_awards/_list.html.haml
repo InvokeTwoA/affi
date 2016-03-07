@@ -12,8 +12,8 @@
         %td.center
           = link_to rookie_award_path(rookie_award) do
             = simple_format rookie_award.name
-        %td.center= simple_format rookie_award.volume
-        %td.center= simple_format rookie_award.money
+        %td= simple_format rookie_award.volume
+        %td= simple_format rookie_award.money
         %td.center
           = l rookie_award.deadline_date
           %br
@@ -21,5 +21,4 @@
           %span.red= time_ago_in_words rookie_award.deadline_date
           )
         %td.center= rookie_award.submit_type
-        %td.center
-          = rookie_award.can_professional? ? '可' : '不可'
+        %td.center= rookie_award.can_professional? ? '可' : '不可'
