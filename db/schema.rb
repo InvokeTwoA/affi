@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160306050227) do
+ActiveRecord::Schema.define(version: 20160307220247) do
 
   create_table "animations", force: true do |t|
     t.string   "title"
@@ -68,8 +68,8 @@ ActiveRecord::Schema.define(version: 20160306050227) do
   create_table "rookie_awards", force: true do |t|
     t.string   "name",             null: false
     t.string   "public_url"
-    t.string   "volume"
-    t.string   "money"
+    t.text     "volume"
+    t.text     "money"
     t.string   "submit_type"
     t.string   "image"
     t.boolean  "can_professional"
