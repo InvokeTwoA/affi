@@ -7,7 +7,7 @@
       %th.center 締め切り
       %th.center 応募タイプ(原稿郵送、web)
       %th.center プロの応募
-    - rookie_awards.each do |rookie_award|
+    - rookie_awards.recent.each do |rookie_award|
       %tr
         %td.center
           = link_to rookie_award_path(rookie_award) do
@@ -16,6 +16,7 @@
         %td.center= simple_format rookie_award.money
         %td.center
           = l rookie_award.deadline_date
+          %br
           (あと
           %span.red= time_ago_in_words rookie_award.deadline_date
           )
