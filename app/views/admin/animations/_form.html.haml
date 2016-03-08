@@ -1,6 +1,6 @@
 .widget-box.transparent.clearfix
   .widget-main
-    = simple_form_for resource, url: admin_animations_path, method: :post,  html: { class: 'form form-horizontal'} do |f|
+    = simple_form_for [:admin, resource],  html: { class: 'form form-horizontal'} do |f|
       .form-group
         %label.col-sm-2.control-label タイトル
         .col-sm-5

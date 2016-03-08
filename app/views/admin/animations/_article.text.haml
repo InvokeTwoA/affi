@@ -1,4 +1,5 @@
-[asin:#{ resource.title_asin }:image:large]
+- if resource.title_asin.present?
+  [asin:#{ resource.title_asin }:image:large]
 \====
 【目次】
 [:contents]
