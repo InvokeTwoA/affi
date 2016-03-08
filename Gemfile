@@ -24,6 +24,9 @@ gem 'twitter-bootswatch-rails-helpers'
 gem 'inherited_resources', '~> 1.5.0'
 gem 'ransack'
 gem 'simple_form', '~> 3.0.2'
+gem 'ransack'
+gem "font-awesome-rails"
+gem 'meta-tags', :require => 'meta_tags'
 
 group :development, :test do
   gem 'mysql2', '~> 0.3.20'

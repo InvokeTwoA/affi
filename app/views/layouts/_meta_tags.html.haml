@@ -1,0 +1,30 @@
+%meta(charset="utf-8")
+%meta(http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1")
+%meta(name="viewport" content="width=device-width, initial-scale=1.0")
+
+-# デスクリプションを不用意に変更されないようにする
+%META{CONTENT: 'NOYDIR', NAME: 'ROBOTS'}
+%META{CONTENT: 'NOODP', NAME: 'ROBOTS'}
+
+%meta{content: 'summary', name: 'twitter:card'}
+%meta{content: '@kappa_ikemen', name: 'twitter:site'}/
+
+/%link{media: 'handheld', rel: 'alternate', href: canonical_url}/
+- set_meta_tags description: '新人賞の情報をまとめたデータベースのサイトです。条件を元に各新人賞を検索する事ができます。'
+- set_meta_tags keywords: ['新人賞', 'データベース', '検索', '応募要項', 'まとめ']
+/= display_meta_tags open_graph: { title: 'カッパの俳句' }
+/- set_meta_tags canonical: canonical_url
+
+:ruby
+  opg = {
+    title: '新人賞データベース',
+    type: 'website',
+    url: root_url,
+    #image: '/images/nomi.png',
+    site_name: '新人賞データベース',
+    description: '新人賞のデータまとめ。検索機能',
+    locale: 'ja_JP'
+  }
+- set_meta_tags open_graph: opg
+= display_meta_tags
+

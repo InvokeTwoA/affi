@@ -1,0 +1,29 @@
+= search_form_for @q, method: :get, remote: true, html: { id: 'search-form' } do |f|
+  = render layout: 'condition_box' do
+    .clearfix
+      .grid-item
+        %label 応募締め切り
+        = f.search_field :deadline_date_gteq, class: 'datepicker'
+        〜
+        = f.search_field :deadline_date_lteq, class: 'datepicker'
+    .clearfix
+      .grid-item
+        %label 新人賞タイトル
+        = f.search_field :name_eq
+    .clearfix
+      /.grid-item{ style: 'width: 700px;' }
+      /  %label
+      /    = check_box_tag "q[submit_type_in][]", StaffHealthCheck.statuses[:not_yet], @cond[:status_in].include?('not_yet')
+      /    未記入
+      /  %label
+      /    = check_box_tag "q[submit_type_in][]", StaffHealthCheck.statuses[:temporary_saved], @cond[:status_in].include?('temporary_saved')
+      /    記入中
+      /  %label
+      /    = check_box_tag "q[submit_type_in][]", StaffHealthCheck.statuses[:done], @cond[:status_in].include?('done')
+      /    記入完了
+      /  %label
+      /    = check_box_tag "q[status_in][]", StaffHealthCheck.statuses[:unsubmitted], @cond[:status_in].include?('unsubmitted')
+      /    提出なし
+      /  %label
+      /    = check_box_tag "q[status_in][]", StaffHealthCheck.statuses[:disabled], @cond[:status_in].include?('disabled')
+      /    除外

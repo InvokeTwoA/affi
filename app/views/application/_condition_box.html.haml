@@ -1,0 +1,12 @@
+.widget-box
+  .widget-header
+    .widget-title
+      = fa_icon 'search'
+      表示条件
+  .widget-body
+    .widget-main
+      = yield
+    .widget-toolbox.padding-8.clearfix.center
+      = submit_tag '検　索', class: 'btn btn-white btn-info btn-xs', style: 'width: 60%'
+      = submit_tag "リセット", type: "reset", class: 'btn btn-white btn-info btn-xs'
+
