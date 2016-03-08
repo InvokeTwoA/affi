@@ -1,15 +1,18 @@
-.widget-box.transparent
-  .widget-header.widget-header-small
-    %h4.widget-title.blue.smaller= resource.name 
-  .widget-body
-    .widget-main
-      .col-xs-4 〆切
-      .col-xs-8= l resource.deadline_date 
-      .col-xs-4 公式URL
-      .col-xs-8= link_to '公式ページ', resource.public_url, target: '_brank'
-      .col-xs-4 賞金
-      .col-xs-8= simple_format resource.money
-      .col-xs-4 原稿枚数
-      .col-xs-8= simple_format resource.volume
-      .col-xs-4 備考
-      .col-xs-8= simple_format resource.note
+%h4= resource.name 
+.row
+  %table.table.table-striped.table-hover
+    %tr
+      %th.center 締め切り
+      %td= l resource.deadline_date 
+    %tr
+      %th.center 公式URL
+      %td= link_to '公式ページ', resource.public_url, target: '_brank'
+    %tr
+      %th.center 賞金
+      %td= simple_format resource.money
+    %tr
+      %th.center 原稿枚数
+      %td= simple_format resource.volume
+    %tr
+      %th.center 備考
+      %td= simple_format resource.note

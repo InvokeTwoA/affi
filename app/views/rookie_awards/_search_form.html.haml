@@ -9,12 +9,15 @@
     .clearfix
       .grid-item
         %label 新人賞タイトル
-        = f.search_field :name_eq
+        = f.search_field :name_cont
     .clearfix
-      /.grid-item{ style: 'width: 700px;' }
-      /  %label
-      /    = check_box_tag "q[submit_type_in][]", StaffHealthCheck.statuses[:not_yet], @cond[:status_in].include?('not_yet')
-      /    未記入
+      .grid-item
+        %label 
+          = check_box_tag "q[can_professional_in]", 1
+          プロ可能
+        %label 
+          = check_box_tag "q[can_professional_in]", 0
+          プロ不可
       /  %label
       /    = check_box_tag "q[submit_type_in][]", StaffHealthCheck.statuses[:temporary_saved], @cond[:status_in].include?('temporary_saved')
       /    記入中
