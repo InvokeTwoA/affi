@@ -4,10 +4,11 @@
 .paginate
   = paginate @animations
 .main
-  %table.table.table-striped.table-hover
+  %table.table.table-hover
     %tr
       %th.center ID
       %th.center タイトル
+      %th.center ステータス
       %th.center 英語タイトル
       %th.center タイトルASIN
       %th.center 公式URL
@@ -23,9 +24,10 @@
       %th.center updated_at
       %th.center アクション
     - @animations.each do |animation|
-      %tr
+      %tr{ class: css_active_row(!animation.is_active)}
         %td.center= animation.id
         %td.center= animation.title
+        %td.center= animation.is_active? ? '有効' : '無効'
         %td.center= animation.eng_title
         %td.center= animation.title_asin
         %td.center= animation.public_url
