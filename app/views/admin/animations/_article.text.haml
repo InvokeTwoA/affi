@@ -20,6 +20,9 @@
   [asin:#{ resource.ed }:image]
 
 * 無料動画
-|*話数|*ひまわり動画|*anitube|*ニコニコ動画|*say move|*youtube|
-- (1..resource.story_no).each_with_index do |i|
-  |#{i}| #{resource.link_tag(resource.hima_url(i), i)} | #{resource.link_tag(resource.ani_url(i), i)} | #{resource.link_tag(resource.niko_url(i), i)} | #{resource.link_tag(resource.say_url(i), i)} | #{resource.link_tag(resource.youtube_url(i), i)} |
+- if resource.story_no > 0
+  |*話数|*ひまわり動画|*anitube|*ニコニコ動画|*say move|*youtube|
+  - (1..resource.story_no).each_with_index do |i|
+    |#{i}| #{resource.link_tag(resource.hima_url(i), i)} | #{resource.link_tag(resource.ani_url(i), i)} | #{resource.link_tag(resource.niko_url(i), i)} | #{resource.link_tag(resource.say_url(i), i)} | #{resource.link_tag(resource.youtube_url(i), i)} |
+- else
+  まだ動画はありません。
