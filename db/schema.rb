@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160307220247) do
+ActiveRecord::Schema.define(version: 20160308202837) do
 
   create_table "animations", force: true do |t|
     t.string   "title"
@@ -27,7 +27,12 @@ ActiveRecord::Schema.define(version: 20160307220247) do
     t.string   "category"
     t.string   "onair_youbi"
     t.integer  "onair_hour"
+    t.string   "op"
+    t.string   "ed"
+    t.boolean  "is_active"
   end
+
+  add_index "animations", ["is_active"], name: "index_animations_on_is_active", using: :btree
 
   create_table "articles", force: true do |t|
     t.string   "title"

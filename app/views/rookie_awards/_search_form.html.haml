@@ -13,20 +13,19 @@
     .clearfix
       .grid-item
         %label 
+          = check_box_tag "q[submit_type_in]", 'web/原稿郵送'
+          web/原稿郵送
+        %label 
+          = check_box_tag "q[submit_type_in]", 'webのみ'
+          webのみ
+        %label 
+          = check_box_tag "q[submit_type_in]", '原稿郵送のみ'
+          原稿郵送のみ
+    .clearfix
+      .grid-item
+        %label 
           = check_box_tag "q[can_professional_in]", 1
           プロ可能
         %label 
           = check_box_tag "q[can_professional_in]", 0
           プロ不可
-      /  %label
-      /    = check_box_tag "q[submit_type_in][]", StaffHealthCheck.statuses[:temporary_saved], @cond[:status_in].include?('temporary_saved')
-      /    記入中
-      /  %label
-      /    = check_box_tag "q[submit_type_in][]", StaffHealthCheck.statuses[:done], @cond[:status_in].include?('done')
-      /    記入完了
-      /  %label
-      /    = check_box_tag "q[status_in][]", StaffHealthCheck.statuses[:unsubmitted], @cond[:status_in].include?('unsubmitted')
-      /    提出なし
-      /  %label
-      /    = check_box_tag "q[status_in][]", StaffHealthCheck.statuses[:disabled], @cond[:status_in].include?('disabled')
-      /    除外

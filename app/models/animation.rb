@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 class Animation < ActiveRecord::Base
   scope :recent, -> { order('updated_at DESC') }
+  scope :active, -> { where(is_active: true)}
 
   def post_article
     title = "[#{self.category}]#{self.title} 無料動画まとめ"

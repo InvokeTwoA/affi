@@ -10,6 +10,14 @@
 - if resource.public_url.present?
   * 公式URL
   [#{resource.public_url}:embed:cite]
+- if resource.op.present?
+  * OP
+  [asin:#{ resource.op }:image]
+
+- if resource.ed.present?
+  * ED
+  [asin:#{ resource.ed }:image]
+
 * 無料動画
 |*話数|*ひまわり動画|*anitube|*ニコニコ動画|*say move|*youtube|
 - (1..resource.story_no).each_with_index do |i|
