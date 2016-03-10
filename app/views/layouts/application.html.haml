@@ -13,33 +13,38 @@
       = javascript_include_tag "http://html5shim.googlecode.com/svn/trunk/html5.js"
     = yield :head
   %body
-    .navbar.navbar-default
-      .navbar-header
-        %button.navbar-toggle{"data-target" => ".navbar-responsive-collapse", "data-toggle" => "collapse", :type => "button"}
-          %span.icon-bar
-          %span.icon-bar
-          %span.icon-bar
-        %a.navbar-brand{:href => root_path} TOP
-      .navbar-collapse.collapse.navbar-responsive-collapse
-        %ul.nav.navbar-nav
-          %li= link_to '新人賞データベース', root_path
-          /%li= link_to '新人賞ニュース', root_path
-          /%li= link_to 'その他', root_path
-        %span.pull-right
+    %nav.navbar.navbar-inverse
+      .container
+        #navbar.navbar-collapse.collapse
+          #navbar-container.navbar-container
+            .navbar-header.pull-left
+              %button.navbar-toggle{"data-target" => ".navbar-responsive-collapse", "data-toggle" => "collapse", :type => "button"}
+                %span.icon-bar
+                %span.icon-bar
+                %span.icon-bar
+              %a.navbar-brand{:href => root_path} 新人賞リマインダー
+            .navbar-collapse.collapse.navbar-responsive-collapse
+              %ul.nav.navbar-nav
+                /%li= link_to '新人賞データベース', root_path
+                /%li= link_to '新人賞ニュース', root_path
+                /%li= link_to 'その他', root_path
+    .container
+      .row
+        .col-md-11.col-xs-12
+          - if flash
+            = render 'flash_box'
+          = yield
+        .col-md-1.col-xs-12
+          = render 'commons/sidebar'
+    %footer.footer
+      .container
+        .pull-right
           <!-- 忍者カウンタ -->
           %script{ type: "text/javascript", src: "http://ct2.xxxxxxxx.jp/sc/1720825" }
           %noscript
             = link_to "http://ct2.xxxxxxxx.jp/gg/1720825" do
               %img{ src: "http://ct2.xxxxxxxx.jp/ll/1720825", border: "0", alt: "カウンター"}
-          人目のワナビ
           <!-- /忍者カウンタ -->
-    .container
-      /.row
-      /  /.span5
-      /  /  = render 'commons/sidebar'
-      /  /.span7
-      - if flash
-        = render 'flash_box'
-      = yield
-    .copyright{ style: 'text-align: center' }
-      Copyright &copy; 2016 かっぱ All Rights Reserved.
+          作目
+      .copyright{ style: 'text-align: center' }
+        Copyright &copy; 2016 かっぱ All Rights Reserved.
