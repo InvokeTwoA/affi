@@ -50,6 +50,8 @@ class Article < ActiveRecord::Base
     def new_post(mode = nil, word = nil, post = true, url_type)
       if url_type == 'maid'
         keyword = Keyword.select_maid_word
+      elsif url_type == 'nijigen'
+        keyword = '二次元ドリーム文庫'
       elsif word.nil?
         url_type = 'idol'
         keyword = Keyword.select_idol_word(mode) if word.nil?
@@ -112,6 +114,9 @@ class Article < ActiveRecord::Base
       title = response.get('ItemAttributes/Title')
       category = nil
       if url_type == 'maid'
+      elsif url_type == 'nijigen'
+        blog_title = "[#{word}]#{title}"
+        category = word
       elsif Keyword.idol.pluck(:name).include? word
         blog_title = "[#{word}]#{title}"
         category = word

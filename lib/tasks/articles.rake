@@ -22,6 +22,13 @@ namespace :articles do
     rescue
     end
 =end
+
+    # ２次元文庫
+    begin
+      Article.new_post('nijigen', nil, true, 'nijigen')
+    rescue
+    end
+
   end
 
   task reset_data: :environment do
