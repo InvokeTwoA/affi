@@ -48,10 +48,8 @@ class Article < ActiveRecord::Base
 
   class << self
     def new_post(mode = nil, word = nil, post = true, url_type)
-      if url_type == 'maid'
-        keyword = Keyword.select_maid_word
-      elsif url_type == 'nijigen'
-        keyword = '二次元ドリーム文庫'
+      if url_type == 'nijigen'
+        keyword = Keyword.select_nijigen_word
       elsif word.nil?
         url_type = 'idol'
         keyword = Keyword.select_idol_word(mode) if word.nil?
@@ -113,8 +111,7 @@ class Article < ActiveRecord::Base
       # 記事タイトル(特定アイドル名だったらカテゴリにする)
       title = response.get('ItemAttributes/Title')
       category = nil
-      if url_type == 'maid'
-      elsif url_type == 'nijigen'
+      if url_type == 'nijigen'
         blog_title = "[#{word}]#{title}"
         category = word
       elsif Keyword.idol.pluck(:name).include? word
