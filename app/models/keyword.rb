@@ -6,7 +6,7 @@ class Keyword < ActiveRecord::Base
 
   scope :general, -> { where(word_type: 'general')}
   scope :idol, -> { where(word_type: 'idol')}
-  scope :maid, -> { where(word_type: 'maid')}
+  scope :nijigen, -> { where(word_type: 'nijigen')}
 
   class << self
     # グラビア関係のキーワード
@@ -21,9 +21,9 @@ class Keyword < ActiveRecord::Base
       end
     end
 
-    # メイド関係のキーワード
-    def select_maid_word
-      id = maid.recent.active.pluck(:id).sample
+    # ２次元関係のキーワード
+    def select_nijigen_word
+      id = nijigen.recent.active.pluck(:id).sample
       Keyword.find id
     end
   end
