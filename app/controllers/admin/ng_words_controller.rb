@@ -1,5 +1,6 @@
 class Admin::NgWordsController < Admin::ApplicationController
   inherit_resources
+  respond_to :js
 
   def create
     create! do
