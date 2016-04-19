@@ -14,5 +14,5 @@
   .form-group
     %label.col-sm-2.control-label タイプ
     .col-sm-10
-      = f.input_field :word_type, as: :select, collection: [['汎用キーワード', 'general'], ['特定アイドル', 'idol'], ['メイド', 'maid']], include_blank: false
+      = f.input_field :word_type, as: :select, collection: [['汎用キーワード', 'general'], ['特定アイドル', 'idol'], ['２次元', 'nijigen']], include_blank: false
     = f.submit '送信', class: 'btn btn-primary'
